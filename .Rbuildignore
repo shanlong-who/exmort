@@ -1,0 +1,11 @@
+^exmort\.Rproj$
+^\.Rproj\.user$
+^cran-comments\.md$
+^\.github$
+^\.git$
+^README\.Rmd$
+^LICENSE\.md$
+^doc$
+^Meta$
+^\.DS_Store$
+^\.gitattributes$
