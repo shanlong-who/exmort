@@ -1,0 +1,173 @@
+---
+title: "All-Cause and Excess Mortality Report"
+params:
+  total_predictions: !r data.frame()
+  summary_by_event:  !r data.frame()
+  overall_summary:   !r data.frame()
+  model_aic:         !r data.frame()
+  best_model:        !r NA_character_
+  filter_sex:        "Total"
+  filter_age_group:  "Total"
+  selected_models:   !r character(0)
+  selected_event:    "All"
+  include_summary:   TRUE
+  include_tables:    TRUE
+  include_plots:     TRUE
+  fig_acm:           !r NA_character_
+  fig_excess:        !r NA_character_
+  fig_pscore:        !r NA_character_
+  logo_path:         !r NA_character_
+  generated_on:      ""
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    self_contained: true
+    theme: cosmo
+  pdf_document:
+    toc: true
+    latex_engine: xelatex
+  officedown::rdocx_document:
+    reference_docx: null
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(dplyr)
+library(flextable)
+set_flextable_defaults(font.size = 9, padding = 3)
+
+# Human-readable column labels used across all tables.
+LABELS <- c(
+  WM_IDENTIFIER = "Period type", YEAR = "Year", PERIOD = "Period", SEX = "Sex",
+  AGE_GROUP = "Age group", Model = "Model", SERIES = "Series", event_name = "Event",
+  NO_DEATHS = "Recorded", EXP_DEATHS = "Expected", EXCESS_DEATHS = "Excess",
+  LOWER_LIMIT = "Expected (lower)", UPPER_LIMIT = "Expected (upper)",
+  TOTAL_DEATHS = "Recorded", TOTAL_EXPECTED = "Expected", TOTAL_EXCESS = "Excess",
+  EXCESS_LOWER = "Excess (lower)", EXCESS_UPPER = "Excess (upper)",
+  TOTAL_SE = "SE", P_SCORE = "P-score (%)"
+)
+
+# Format a data frame as a page-width flextable: thousands separators on count
+# columns, one decimal + % on P-score, friendly headers. Works for HTML/PDF/docx.
+ft <- function(df, caption = NULL, drop = character(0)) {
+  if (is.null(df) || nrow(df) == 0) {
+    return(flextable(data.frame(Note = "No data for this selection.")))
+  }
+  df <- as.data.frame(df)[, setdiff(names(df), drop), drop = FALSE]
+  count_cols <- intersect(
+    c("NO_DEATHS", "EXP_DEATHS", "EXCESS_DEATHS", "LOWER_LIMIT", "UPPER_LIMIT",
+      "TOTAL_DEATHS", "TOTAL_EXPECTED", "TOTAL_EXCESS", "TOTAL_SE",
+      "EXCESS_LOWER", "EXCESS_UPPER"), names(df))
+  ftab <- flextable(df)
+  for (nc in count_cols) ftab <- colformat_double(ftab, j = nc, digits = 0, big.mark = ",")
+  if ("P_SCORE" %in% names(df)) ftab <- colformat_double(ftab, j = "P_SCORE", digits = 1, suffix = "%")
+  hl <- LABELS[intersect(names(df), names(LABELS))]
+  if (length(hl)) ftab <- set_header_labels(ftab, values = as.list(hl))
+  ftab |>
+    set_table_properties(layout = "autofit", width = 1) |>
+    theme_vanilla() |>
+    bg(part = "header", bg = "#0072B2") |>
+    color(part = "header", color = "white") |>
+    set_caption(caption)
+}
+
+comma <- function(x) formatC(round(x), format = "d", big.mark = ",")
+```
+
+```{r title-block, results = 'asis'}
+fwd <- function(p) gsub("\\\\", "/", p)  # markdown-safe forward-slash paths
+if (!is.na(params$logo_path) && nzchar(params$logo_path) && file.exists(params$logo_path)) {
+  cat(sprintf('\n\n![](%s){width=180px}\n\n', fwd(params$logo_path)))
+}
+cat("# All-Cause and Excess Mortality Report\n\n")
+cat(sprintf("**WHO Western Pacific Region** &nbsp;|&nbsp; Generated %s\n\n",
+            if (nzchar(params$generated_on)) params$generated_on else format(Sys.Date())))
+cat(sprintf(
+  "**Scope:** Sex = *%s*, Age group = *%s*, Models = *%s*, Event = *%s*\n\n",
+  params$filter_sex, params$filter_age_group,
+  if (length(params$selected_models)) paste(params$selected_models, collapse = ", ") else "(none)",
+  params$selected_event))
+```
+
+> **Disclaimer:** `[WHO disclaimer — to be confirmed by the report owner before circulation.]`
+> This placeholder must be replaced with the approved WHO/WPRO disclaimer wording.
+
+```{r exec-summary, eval = isTRUE(params$include_summary), results = 'asis'}
+cat("\n## Executive summary\n\n")
+os <- as.data.frame(params$overall_summary)
+# Restrict to a SINGLE model and the report scope before summing. overall_summary
+# has one row per model (and per SEX/AGE/AREA/CAUSE), so summing across all rows
+# multiplied the headline excess by the number of selected models and mixed
+# overlapping Total/Male/Female subgroups. Pick the best-fit model if available,
+# else the first selected model; keep the Total slice where those columns exist.
+pick_model <- if (!is.na(params$best_model) && "Model" %in% names(os) &&
+                  params$best_model %in% os$Model) {
+  params$best_model
+} else if (length(params$selected_models) > 0 && "Model" %in% names(os)) {
+  sel <- intersect(params$selected_models, os$Model)
+  if (length(sel) > 0) sel[1] else NA_character_
+} else NA_character_
+if (!is.na(pick_model) && "Model" %in% names(os)) os <- os[os$Model == pick_model, , drop = FALSE]
+if ("SEX" %in% names(os))       os <- os[os$SEX == params$filter_sex, , drop = FALSE]
+if ("AGE_GROUP" %in% names(os)) os <- os[os$AGE_GROUP == params$filter_age_group, , drop = FALSE]
+if ("AREA"  %in% names(os) && "Total" %in% os$AREA)  os <- os[os$AREA  == "Total", , drop = FALSE]
+if ("CAUSE" %in% names(os) && "Total" %in% os$CAUSE) os <- os[os$CAUSE == "Total", , drop = FALSE]
+if (nrow(os) > 0 && all(c("TOTAL_EXCESS", "TOTAL_EXPECTED") %in% names(os))) {
+  tot_exc <- sum(os$TOTAL_EXCESS, na.rm = TRUE)
+  tot_exp <- sum(os$TOTAL_EXPECTED, na.rm = TRUE)
+  ps <- if (tot_exp != 0) 100 * tot_exc / tot_exp else NA_real_
+  cat(sprintf(
+    paste0("Across the selected scope, the estimated total **excess deaths** (all events) is ",
+           "**%s**, corresponding to an overall **P-score of %s**",
+           if (!is.na(pick_model)) ", based on the **%s** model" else "%s",
+           ".\n\n"),
+    comma(tot_exc),
+    if (is.na(ps)) "n/a" else sprintf("%.1f%%", ps),
+    if (!is.na(pick_model)) pick_model else ""))
+} else {
+  cat("No overall summary is available for the selected scope.\n\n")
+}
+```
+
+```{r overall-table, eval = isTRUE(params$include_summary)}
+ft(params$overall_summary, caption = "Overall summary by model (all events)",
+   drop = c("WM_IDENTIFIER", "event_index"))
+```
+
+```{r aic-table, eval = isTRUE(params$include_summary) && nrow(params$model_aic) > 0}
+ft(params$model_aic, caption = "Model fit — AIC (lower is better; N/A models excluded)")
+```
+
+```{r figures, eval = isTRUE(params$include_plots), results = 'asis'}
+figs <- c(
+  "All-cause mortality: recorded vs expected" = params$fig_acm,
+  "Excess deaths"                             = params$fig_excess,
+  "P-score (excess as % of expected)"         = params$fig_pscore)
+figs <- figs[!is.na(figs) & vapply(figs, function(p) is.character(p) && nzchar(p) && file.exists(p), logical(1))]
+if (length(figs) > 0) {
+  cat("\n## Figures\n\n")
+  for (nm in names(figs)) {
+    cat(sprintf("\n**%s**\n\n", nm))
+    cat(sprintf("![](%s)\n\n", gsub("\\\\", "/", figs[[nm]])))
+  }
+}
+```
+
+```{r per-event, eval = isTRUE(params$include_tables) && nrow(as.data.frame(params$summary_by_event)) > 0, results = 'asis'}
+sbe <- as.data.frame(params$summary_by_event)
+cat("\n## Results by event\n\n")
+for (ev in unique(sbe$event_name)) {
+  cat(sprintf("\n### %s\n\n", if (is.na(ev) || ev == "") "(unlabelled)" else ev))
+  cat(knitr::knit_print(ft(
+    sbe[sbe$event_name == ev, , drop = FALSE],
+    drop = c("WM_IDENTIFIER", "event_index", "event_name"))))
+  cat("\n\n")
+}
+```
+
+```{r predictions-table, eval = isTRUE(params$include_tables)}
+ft(head(as.data.frame(params$total_predictions), 200),
+   caption = "Per-period predictions (first 200 rows)",
+   drop = c("WM_IDENTIFIER", "event_index"))
+```

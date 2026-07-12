@@ -1,0 +1,12 @@
+# Normalise text files to LF so the package builds cleanly on every platform
+* text=auto eol=lf
+
+# Treat binary assets as binary (never munge line endings)
+*.xlsx binary
+*.pdf  binary
+*.png  binary
+*.gif  binary
+*.jpg  binary
+*.jpeg binary
+*.rds  binary
+*.ico  binary
