@@ -5,7 +5,7 @@
 # directly from predict(interval = "prediction"). The Gaussian likelihood is not
 # on the same scale as the count-model AICs (NB / GAM / ZIP), so its AIC is
 # reported as NA and excluded from the Best Fit comparison (as for ARIMA).
-source("modules/common_functions.R")
+source_module("modules/common_functions.R")
 
 fit_and_predict_karlinsky <- function(patt_src, hist_src, l_period) {
     t.start <- Sys.time()

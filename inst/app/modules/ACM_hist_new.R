@@ -1,5 +1,5 @@
 # Load shared helpers
-source("modules/common_functions.R")
+source_module("modules/common_functions.R")
 
 # Helper function: Calculate historical average
 calculate_historical_average_hist <- function(hist_src, src_pandemic, l_period) {

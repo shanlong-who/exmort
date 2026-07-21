@@ -16,18 +16,14 @@
 #'   invisibly returns \code{NULL} when the app is closed.
 #'
 #' @examples
-#' \dontrun{
-#' # Launch the calculator in your browser:
-#' run_app()
+#' if (interactive()) {
+#'   # Launch the calculator in your browser:
+#'   run_app()
 #' }
 #'
 #' @export
 run_app <- function(launch.browser = interactive(), ...) {
-  app_src <- system.file("app", package = "exmort")
-  if (!nzchar(app_src)) {
-    stop("Could not locate the bundled app directory. ",
-         "Try reinstalling the 'exmort' package.", call. = FALSE)
-  }
+  app_src <- exmort_app_dir()
 
   # Run from a temporary copy: app.R creates a 'data/' folder in its working
   # directory at runtime, and packages must not write to their own library.

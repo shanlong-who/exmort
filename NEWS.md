@@ -8,3 +8,8 @@
   quasi-Poisson, zero-inflated Poisson, ARIMA/SARIMA, GAM spline and the
   Karlinsky–Kobak model), event annotation, best-fit AIC comparison, and
   HTML / Word / PDF report generation.
+* Application code is sourced into a private environment instead of the global
+  environment, and the app no longer leaves `options(digits)` or the `LC_TIME`
+  locale changed after a session ends.
+* Adds a `testthat` suite covering the ISO year-week date helpers, the model
+  date index and the upload validators.
