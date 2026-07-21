@@ -8,11 +8,11 @@
 # library(scales)
 # library(shinyjs)
 
-# Add locale setting to English to ensure month labels are in English
-# Save current locale settings
-original_locale_module_total <- Sys.getlocale("LC_TIME")
-# Set to English locale
-Sys.setlocale("LC_TIME", "English")
+# Note: this module used to set LC_TIME to "English" at load time and never
+# restored it. Nothing here formats month or day names, so the call was both
+# unnecessary and a change to the user's session settings, which CRAN policy
+# does not allow. Where English month labels are genuinely needed (app.R), the
+# locale is switched inside a function that restores it with on.exit().
 
 # --- Module UI ---
 # plot_total_module_ui <- function(id) {

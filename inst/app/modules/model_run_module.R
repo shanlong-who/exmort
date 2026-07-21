@@ -11,14 +11,14 @@ library(shinyjs)     # progress-bar driver
 library(shinyalert)  # modal dialogs for run results
 
 # Load shared helpers and active model implementations.
-source("modules/common_functions.R")
-source("modules/ACM_hist_new.R")
-source("modules/ACM_nb.R")
-source("modules/ACM_quasipoisson.R")
-source("modules/ACM_zip.R")
-source("modules/ACM_arima.R")
-source("modules/ACM_gam.R")
-source("modules/ACM_karlinsky.R")
+source_module("modules/common_functions.R")
+source_module("modules/ACM_hist_new.R")
+source_module("modules/ACM_nb.R")
+source_module("modules/ACM_quasipoisson.R")
+source_module("modules/ACM_zip.R")
+source_module("modules/ACM_arima.R")
+source_module("modules/ACM_gam.R")
+source_module("modules/ACM_karlinsky.R")
 
 # Single source of truth for the model line-up. Each entry drives the UI
 # checkbox, the run loop, the result aggregation, and the status table.

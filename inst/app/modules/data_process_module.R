@@ -9,8 +9,8 @@ library(shinyjs)     # JavaScript-based UI helpers (progress messages)
 library(shinyalert)  # Modal dialogs for validation errors
 library(zoo)         # na.locf for forward-filling area labels
 
-source("modules/utils.R")
-source("modules/data_validation.R")
+source_module("modules/utils.R")
+source_module("modules/data_validation.R")
 
 # UI for the Data tab
 data_process_module_ui <- function(id) {

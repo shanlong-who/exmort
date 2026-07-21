@@ -7,7 +7,7 @@ library(dplyr)
 library(lubridate)
 library(plotly)
 library(RColorBrewer)
-source("modules/plot_functions/plot_utils.R")
+source_module("modules/plot_functions/plot_utils.R")
 
 plot_prediction_module_ui <- function(id) {
   ns <- NS(id)

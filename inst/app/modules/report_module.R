@@ -19,7 +19,7 @@ library(shinyalert)
 # surfaces a clear error in that case.
 
 # Source plotting functions
-source("modules/plot_functions_report.R")
+source_module("modules/plot_functions_report.R")
 
 # Define UI interface for report module
 report_module_ui <- function(id) {

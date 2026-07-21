@@ -4,7 +4,7 @@
 # expected-mortality baseline than the fixed-df Negative Binomial model. Count
 # prediction intervals are drawn from the fitted NB (predicted mu + estimated
 # theta) via qnbinom, so P-score uncertainty is honest.
-source("modules/common_functions.R")
+source_module("modules/common_functions.R")
 
 fit_and_predict_gam <- function(patt_src, hist_src, l_period) {
     t.start <- Sys.time()

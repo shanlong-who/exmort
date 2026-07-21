@@ -1,5 +1,5 @@
 # 加载公共函数
-source("modules/common_functions.R")
+source_module("modules/common_functions.R")
 
 # 泊松回归模型拟合和预测函数
 fit_and_predict_quasipoisson <- function(patt_src, hist_src, l_period) {

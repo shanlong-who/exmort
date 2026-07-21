@@ -5,7 +5,7 @@ library(lubridate)
 library(ISOweek)
 
 # 加载公共函数（假设与 NB、BSTS 和 KFAS 模型相同）
-source("modules/common_functions.R")
+source_module("modules/common_functions.R")
 
 # ARIMA 模型拟合和预测函数
 fit_and_predict_arima <- function(patt_src, hist_src, l_period) {

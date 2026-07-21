@@ -9,3 +9,4 @@
 ^Meta$
 ^\.DS_Store$
 ^\.gitattributes$
+^CRAN-SUBMISSION$

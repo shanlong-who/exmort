@@ -27,9 +27,9 @@ launched, so it never writes into the (possibly read-only) package
 installation directory.
 }
 \examples{
-\dontrun{
-# Launch the calculator in your browser:
-run_app()
+if (interactive()) {
+  # Launch the calculator in your browser:
+  run_app()
 }
 
 }

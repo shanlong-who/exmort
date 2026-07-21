@@ -9,13 +9,16 @@ Authors@R: c(
 Description: An interactive 'shiny' application that estimates all-cause
     mortality and excess mortality from country-level weekly or monthly death
     counts. Users supply observed deaths and an event calendar (for example
-    'COVID-19' waves or typhoons); the app fits one or more statistical
-    baseline models (historical average, negative binomial, quasi-Poisson,
-    zero-inflated Poisson, ARIMA/SARIMA, generalized additive model and the
-    Karlinsky-Kobak model) on a user-defined baseline period, projects the
-    expected deaths into the post-baseline period, and reports excess deaths,
-    P-scores and confidence limits with tables, plots and downloadable
-    reports. Launch the application with run_app().
+    COVID-19 waves or typhoons); the app fits one or more statistical
+    baseline models (historical average, negative binomial regression,
+    quasi-Poisson regression, zero-inflated Poisson regression, ARIMA
+    (autoregressive integrated moving average) and SARIMA (seasonal ARIMA)
+    models, GAM (generalized additive model) splines, and the model of
+    Karlinsky and Kobak (2021) <doi:10.7554/eLife.69336>) on a user-defined
+    baseline period, projects the expected deaths into the post-baseline
+    period, and reports excess deaths, P-scores (excess deaths as a
+    percentage of expected deaths) and confidence limits with tables, plots
+    and downloadable reports. Launch the application with run_app().
 License: GPL-3
 Encoding: UTF-8
 Language: en-GB
@@ -52,7 +55,9 @@ Imports:
     zoo
 Suggests:
     officedown,
+    testthat (>= 3.0.0),
     tinytex
+Config/testthat/edition: 3
 SystemRequirements: pandoc (>= 1.14) for report rendering; a LaTeX
     installation (for example TinyTeX) is required only for PDF reports.
 URL: https://github.com/shanlong-who/exmort

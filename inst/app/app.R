@@ -23,39 +23,50 @@ if (!dir.exists(data_dir)) {
   message("Created data directory: ", data_dir)
 }
 
-# Clear cached functions from the global env to avoid stale definitions
-# carrying over across reloads during development.
-rm(list = lsf.str())
+# All application code is sourced into `app_env` -- the environment in which
+# app.R itself is evaluated -- and never into the global environment. CRAN
+# policy forbids packages from writing to .GlobalEnv, and every module file
+# below therefore uses source_module() instead of a bare source().
+app_env <- environment()
+app_env$.sourced_modules <- character(0)
+
+# Source a module file into `app_env`. Each file is sourced only once unless
+# `force = TRUE`; several modules source their shared helpers themselves, so
+# the bookkeeping avoids re-evaluating the same file a dozen times.
+source_module <- function(path, force = FALSE) {
+  if (!force && path %in% app_env$.sourced_modules) {
+    return(invisible(FALSE))
+  }
+  app_env$.sourced_modules <- union(app_env$.sourced_modules, path)
+  source(path, encoding = "UTF-8", local = app_env)
+  invisible(TRUE)
+}
 
 # Note: date_midpoint() lives in modules/plot_prediction_module_new.R.
 
-source("modules/utils.R", encoding = "UTF-8")
-source("modules/ACM_hist_new.R", encoding = "UTF-8")
-source("modules/ACM_nb.R", encoding = "UTF-8")
-source("modules/ACM_quasipoisson.R", encoding = "UTF-8")
-source("modules/ACM_zip.R", encoding = "UTF-8")
-source("modules/data_process_module.R", encoding = "UTF-8")
-source("modules/model_run_module.R", encoding = "UTF-8")
-source("modules/model_summary_module.R", encoding = "UTF-8")
-source("modules/report_module.R", encoding = "UTF-8")
+source_module("modules/utils.R")
+source_module("modules/ACM_hist_new.R")
+source_module("modules/ACM_nb.R")
+source_module("modules/ACM_quasipoisson.R")
+source_module("modules/ACM_zip.R")
+source_module("modules/data_process_module.R")
+source_module("modules/model_run_module.R")
+source_module("modules/model_summary_module.R")
+source_module("modules/report_module.R")
 
-# Lazy-load plot modules on first use. The rm() calls clear stale function
-# definitions from earlier sourced versions to avoid name collisions between
-# the three plot module files.
+# Lazy-load plot modules on first use.
 load_module <- function(module_name) {
-  if (module_name == "plot_prediction" && !exists("plot_prediction_module_ui", mode = "function")) {
-    rm(list = ls(pattern = "create_.*_plot"), envir = .GlobalEnv)
-    rm(list = ls(pattern = "plot_prediction_module"), envir = .GlobalEnv)
-    rm(list = ls(pattern = "date_midpoint"), envir = .GlobalEnv)
-    source("modules/plot_prediction_module_new.R", encoding = "UTF-8")
+  loaded <- function(fn) exists(fn, envir = app_env, mode = "function", inherits = FALSE)
+  if (module_name == "plot_prediction" && !loaded("plot_prediction_module_ui")) {
+    source_module("modules/plot_prediction_module_new.R", force = TRUE)
     message("Loaded plot_prediction_module_new.R")
     return(TRUE)
-  } else if (module_name == "plot_event" && !exists("plot_event_module_ui", mode = "function")) {
-    source("modules/plot_event_module_new.R", encoding = "UTF-8")
+  } else if (module_name == "plot_event" && !loaded("plot_event_module_ui")) {
+    source_module("modules/plot_event_module_new.R", force = TRUE)
     message("Loaded plot_event_module_new.R")
     return(TRUE)
-  } else if (module_name == "plot_total" && !exists("plot_total_module_ui", mode = "function")) {
-    source("modules/plot_total_module.R", encoding = "UTF-8")
+  } else if (module_name == "plot_total" && !loaded("plot_total_module_ui")) {
+    source_module("modules/plot_total_module.R", force = TRUE)
     message("Loaded plot_total_module.R")
     return(TRUE)
   }
@@ -63,10 +74,25 @@ load_module <- function(module_name) {
 }
 
 # Non-plot module sources
-source("modules/about_module.R", encoding = "UTF-8")
-source("modules/methods_module.R", encoding = "UTF-8")
-source("modules/help_resources_module.R", encoding = "UTF-8")
-source("modules/best_fit_module.R", encoding = "UTF-8")
+source_module("modules/about_module.R")
+source_module("modules/methods_module.R")
+source_module("modules/help_resources_module.R")
+source_module("modules/best_fit_module.R")
+
+# Month abbreviations must come out in English regardless of the user's
+# locale, so LC_TIME is switched for the duration of the call only. on.exit()
+# is registered immediately after the change so the user's locale is restored
+# even if the formatting below fails.
+week_start_labels <- function(year, period) {
+  original_locale <- Sys.getlocale("LC_TIME")
+  on.exit(suppressWarnings(Sys.setlocale("LC_TIME", original_locale)), add = TRUE)
+  suppressWarnings(Sys.setlocale("LC_TIME", "en_US.UTF-8"))
+  vapply(
+    seq_along(year),
+    function(i) format(get_week_start_date(year[i], period[i]), "%b-%d"),
+    character(1)
+  )
+}
 
 # Main UI: navbar layout with About as the landing page.
 ui <- navbarPage(
@@ -162,7 +188,13 @@ ui <- navbarPage(
 
 # Server
 server <- function(input, output, session) {
-  options(digits = 3)
+  # The app formats a lot of model output at default precision. Restore the
+  # user's own options() when the session ends so nothing leaks out of the app
+  # (the Shiny equivalent of an immediate on.exit(); the server function itself
+  # returns before any output is rendered, so a plain on.exit() would undo the
+  # setting too early).
+  old_options <- options(digits = 3)
+  session$onSessionEnded(function() options(old_options))
 
   # Initialize reactive values shared across modules
   rv <- reactiveValues(
@@ -210,19 +242,12 @@ server <- function(input, output, session) {
         select(YEAR, PERIOD) %>%
         distinct()
 
-      # Save current locale setting
-      original_locale <- Sys.getlocale("LC_TIME")
-      # Change locale setting to English
-      Sys.setlocale("LC_TIME", "en_US.UTF-8")
-
-      # 2. Batch calculate DATE_TO_SPECIFY_WEEK
-      unique_combinations$DATE_TO_SPECIFY_WEEK <- apply(unique_combinations, 1, function(row) {
-        target_date <- get_week_start_date(as.numeric(row["YEAR"]), as.numeric(row["PERIOD"]))
-        format(target_date, "%b-%d")
-      })
-
-      # Restore original locale setting
-      Sys.setlocale("LC_TIME", original_locale)
+      # 2. Batch calculate DATE_TO_SPECIFY_WEEK (English month labels; the
+      #    helper restores the user's LC_TIME setting on exit).
+      unique_combinations$DATE_TO_SPECIFY_WEEK <- week_start_labels(
+        as.numeric(unique_combinations$YEAR),
+        as.numeric(unique_combinations$PERIOD)
+      )
 
       # 3. Merge results back to original dataframe
       rv_data <- rv_data %>%
