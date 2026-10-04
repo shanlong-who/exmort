@@ -1,6 +1,8 @@
 # exmort
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/exmort)](https://cran.r-project.org/package=exmort)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/exmort)](https://cran.r-project.org/package=exmort)
 <!-- badges: end -->
 
 **All-Cause and Excess Mortality Calculator** — an R Shiny application for
@@ -26,7 +28,7 @@ Baseline models included:
 
 ## Installation
 
-From CRAN (once released):
+Install from [CRAN](https://cran.r-project.org/package=exmort):
 
 ``` r
 install.packages("exmort")
