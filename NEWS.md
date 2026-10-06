@@ -1,3 +1,14 @@
+# exmort 0.1.1
+
+* Added three vignettes covering installation and launch, input templates
+  and data preparation, and baseline models and result interpretation.
+* Added a pkgdown documentation website, linked from the package metadata
+  and README, with a function reference and searchable articles.
+* Added a package hex logo showing expected and observed mortality, used in
+  the README, website and vignettes.
+* Clarified that baseline models are fitted to all periods outside the
+  supplied events, including any non-event periods after an event.
+
 # exmort 0.1.0
 
 * First release: the WHO WPRO All-Cause and Excess Mortality Calculator

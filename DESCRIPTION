@@ -1,6 +1,6 @@
 Package: exmort
 Title: All-Cause and Excess Mortality Calculator
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Shanlong", "Ding", email = "dings@who.int",
            role = c("aut", "cre")),
