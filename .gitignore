@@ -15,3 +15,5 @@ exmort.Rcheck/
 # OS
 .DS_Store
 Thumbs.db
+docs/
+inst/doc/

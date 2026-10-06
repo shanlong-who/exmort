@@ -1,0 +1,34 @@
+url: https://shanlong-who.github.io/exmort/
+template:
+  bootstrap: 5
+  bslib:
+    primary: '#0093D5'
+    base_font:
+      google: Source Sans Pro
+    heading_font:
+      google: Source Sans Pro
+    code_font:
+      google: JetBrains Mono
+home:
+  title: exmort — All-Cause and Excess Mortality Calculator
+  description: >
+    A local R Shiny calculator for weekly and monthly all-cause mortality,
+    expected deaths, excess deaths and P-scores, with model comparisons and reports.
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+reference:
+  - title: Launch the calculator
+    desc: Open the calculator and learn about the package.
+    contents: [run_app, exmort-package]
+articles:
+  - title: Work with exmort
+    navbar: ~
+    contents:
+      - exmort
+      - data-preparation
+      - models-and-interpretation
+authors:
+  Shanlong Ding:
+    href: https://github.com/shanlong-who
