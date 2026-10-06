@@ -20,7 +20,7 @@ library(ggplot2)
 library(DSIR)
 ```
 
-<img src="../man/figures/logo.png" align="right" height="130" alt="exmort hex logo showing observed deaths above an expected baseline" />
+<img src="../man/figures/logo.png" style="width: 130px; height: auto; float: right; margin: 0 0 1rem 1.25rem;" alt="exmort hex logo showing observed deaths above an expected baseline" />
 
 Excess mortality compares observed all-cause deaths with an estimated
 counterfactual: deaths expected under the baseline conditions. The expected
