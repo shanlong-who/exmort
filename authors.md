@@ -14,12 +14,12 @@ Source:
 [`DESCRIPTION`](https://github.com/shanlong-who/exmort/blob/main/DESCRIPTION)
 
 Ding S (2026). *exmort: All-Cause and Excess Mortality Calculator*. R
-package version 0.1.0, <https://github.com/shanlong-who/exmort>.
+package version 0.1.1, <https://github.com/shanlong-who/exmort>.
 
     @Manual{,
       title = {exmort: All-Cause and Excess Mortality Calculator},
       author = {Shanlong Ding},
       year = {2026},
-      note = {R package version 0.1.0},
+      note = {R package version 0.1.1},
       url = {https://github.com/shanlong-who/exmort},
     }

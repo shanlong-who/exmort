@@ -222,7 +222,7 @@ whether the data are provisional and record their extraction date.
 ``` r
 
 packageVersion("exmort")
-#> [1] '0.1.0'
+#> [1] '0.1.1'
 ```
 
 The **Methods** tab includes the methodology PDF shipped with the app.
