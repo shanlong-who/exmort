@@ -16,7 +16,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE,
 library(exmort)
 ```
 
-<img src="../man/figures/logo.png" align="right" height="130" alt="exmort hex logo showing observed deaths above an expected baseline" />
+<img src="../man/figures/logo.png" style="width: 130px; height: auto; float: right; margin: 0 0 1rem 1.25rem;" alt="exmort hex logo showing observed deaths above an expected baseline" />
 
 **exmort** is an R package that launches the All-Cause and Excess Mortality
 Calculator. It helps you compare recorded deaths with an estimated baseline,
