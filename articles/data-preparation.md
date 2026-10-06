@@ -1,0 +1,240 @@
+# Preparing mortality data and event calendars
+
+``` r
+
+library(exmort)
+library(readxl)
+library(dplyr)
+```
+
+![exmort hex logo showing observed deaths above an expected
+baseline](../reference/figures/logo.png)
+
+The calculator reads a **template-based Excel workbook**, with a
+mortality sheet and an event calendar. Prepare and check both before
+fitting models. This guide describes the format used by the current
+package.
+
+## Start from a supplied template
+
+In the app, open **Data → Upload Data**, select a template under
+**Download a template**, and click **Download template**. Generic
+monthly and weekly templates are available, along with empty country
+templates and filled historical examples.
+
+You can also find the generic templates in the installed package:
+
+``` r
+
+template_dir <- system.file("app", "XLSX", package = "exmort")
+monthly_template <- file.path(template_dir, "Data_Entry_Template_monthly.xlsx")
+weekly_template <- file.path(template_dir, "Data_Entry_Template_weekly.xlsx")
+file.exists(c(monthly_template, weekly_template))
+#> [1] TRUE TRUE
+excel_sheets(monthly_template)
+#> [1] "Instructions"   "events"         "events(m)"      "National level"
+#> [5] "Region1"        "Region2 "
+```
+
+Work on a copy. For example, this copies the monthly template to a
+temporary folder without replacing an existing file:
+
+``` r
+
+workbook_copy <- file.path(tempdir(), "my-monthly-mortality.xlsx")
+file.copy(monthly_template, workbook_copy, overwrite = FALSE)
+```
+
+For a real analysis, save the working copy in your project folder.
+
+## Preserve the mortality sheet layout
+
+Mortality sheets use a **wide layout**: age group and sex on the left,
+with one column per reporting period across the page. The header spans
+several rows. The loader reads fixed row positions, so keep the header
+structure.
+
+| Layout | Header positions used by the loader | Start of data rows |
+|----|----|----|
+| Monthly | Year in row 2; month number in row 4; the five template header rows remain in place | Row 6 |
+| Weekly | Year in row 2; days in the week in row 4; WEEKS in row 5; week number in row 6 | Row 7 |
+
+Keep the first two columns for age group and sex. Keep year and period
+entries aligned with their death-count columns. Use month numbers 1–12
+or ISO week numbers 1–53, as appropriate. Check week 53 against the
+relevant ISO year; avoid mixing different week definitions.
+
+This excerpt shows the first few cells of the supplied monthly header:
+
+``` r
+
+header_excerpt <- read_excel(
+  monthly_template, sheet = "National level", col_names = FALSE, n_max = 5
+)
+header_excerpt[, seq_len(6)]
+#> # A tibble: 5 × 6
+#>   ...1      ...2  ...3   ...4  ...5  ...6 
+#>   <chr>     <chr> <chr>  <chr> <chr> <chr>
+#> 1 AGE GROUP SEX   YEARS  NA    NA    NA   
+#> 2 NA        NA    2015   2015  2015  2015 
+#> 3 NA        NA    MONTHS NA    NA    NA   
+#> 4 NA        NA    1      2     3     4    
+#> 5 NA        NA    Jan    Feb   Mar   Apr
+```
+
+Name mortality sheets clearly, for example `National level` or a region
+name. The selected sheet name becomes the `AREA` value in processed
+data. Each analysis starts from the mortality sheet selected in the app.
+
+Enter numeric death counts. A blank cell means missing information; a
+zero means zero recorded deaths. Do not use zero as a substitute for a
+missing report. Leave explanations in a separate notes sheet or analysis
+log.
+
+## Understand the processed table
+
+After import, the app reshapes a mortality sheet into these fields:
+
+| Field | Meaning | Check |
+|----|----|----|
+| AREA | Selected mortality sheet name | Geography and coverage are clear |
+| AGE_GROUP | Age-group label | Total and component groups are distinguished |
+| SEX | Sex category | Total, Male and Female labels are consistent |
+| YEAR | Reporting year | Correct calendar or ISO year |
+| PERIOD | Month or week number | Appropriate range and continuous coverage |
+| DAYS | Length of the reporting period | Correct day counts, especially for partial weeks |
+| NO_DEATHS | Recorded all-cause deaths | Numeric, non-negative and complete where expected |
+
+This is the **processed output schema**, not an alternative flat-table
+upload format. Use the workbook template for uploads.
+
+Do not sum a Total row together with its component age or sex
+categories. For your first model run, select a clearly defined total
+series or one specific subgroup, then add other groups deliberately.
+
+## Edit the event calendar
+
+Use the supplied `events` sheet, or another event sheet with the same
+three-column layout:
+
+``` r
+
+example_events <- read_excel(monthly_template, sheet = "events")
+example_events
+#> # A tibble: 1 × 3
+#>   event_name start_date          end_date           
+#>   <chr>      <dttm>              <dttm>             
+#> 1 COVID-19   2020-01-01 00:00:00 2023-08-05 00:00:00
+```
+
+| Column     | Meaning                            |
+|------------|------------------------------------|
+| event_name | A short, clear label for the event |
+| start_date | First date of the event period     |
+| end_date   | Last date of the event period      |
+
+Enter real Excel dates, check that the start precedes or equals the end,
+and replace the template’s example dates. Keep an independent record of
+why the dates were chosen. Weekly or monthly aggregation limits how
+finely you can distinguish an event’s timing.
+
+For illustration, you can describe an event calendar in R:
+
+``` r
+
+event_calendar <- tibble(
+  event_name = c("Event A", "Event B"),
+  start_date = as.Date(c("2020-03-01", "2021-07-01")),
+  end_date = as.Date(c("2020-12-31", "2021-10-31"))
+)
+event_calendar
+#> # A tibble: 2 × 3
+#>   event_name start_date end_date  
+#>   <chr>      <date>     <date>    
+#> 1 Event A    2020-03-01 2020-12-31
+#> 2 Event B    2021-07-01 2021-10-31
+```
+
+Transfer the intended dates to the workbook before uploading. This code
+does not change the app’s data or run a model.
+
+Avoid overlapping events for a first analysis. If events overlap,
+inspect the merged period annotations and do not assume that the two
+event totals can be added without double counting.
+
+## Decide what the baseline contains
+
+The models use rows marked `event_index == "0"` as the baseline.
+Therefore, **every non-event period in the loaded series can
+contribute**, including periods after the final event. Selecting a
+workbook and event calendar is part of specifying the baseline.
+
+If your intended baseline is entirely before an event, prepare an input
+series that covers that baseline and the event period of interest,
+without unwanted later non-event observations. If you keep later
+observations, explain why they represent an appropriate baseline. Review
+all unlabelled gaps between events as well.
+
+Use several comparable years where possible. A short series, changing
+registration coverage, incomplete recent reporting or a change in
+age-group definitions can make a baseline unreliable even when
+validation passes.
+
+## Upload, merge and verify
+
+1.  Open **Data → Upload Data** and select **Excel spreadsheet (*.xls
+    or* .xlsx)** under **Open a data set**.
+2.  Upload your completed workbook.
+3.  Select the mortality sheet and the event sheet.
+4.  Click **Merge Mortality/Events Data**.
+5.  Read any validation message and correct the workbook before
+    continuing.
+6.  Open **View Data** and inspect all three tables.
+7.  Check the time range, period annotations and totals against the
+    source.
+8.  Download the processed and merged tables as part of the analysis
+    record.
+
+The validators check structural problems such as missing columns,
+non-numeric years or counts, invalid period values and negative deaths.
+They do not replace a completeness assessment or a review of
+registration changes. Review missing counts, duplicates and date
+consistency yourself.
+
+## Check a downloaded processed table in R
+
+After reading the downloaded data into `mortality_data`, these checks
+can help identify issues. Adapt the file-reading step to the exported
+format.
+
+``` r
+
+required_columns <- c("AREA", "AGE_GROUP", "SEX", "YEAR", "PERIOD", "NO_DEATHS")
+stopifnot(all(required_columns %in% names(mortality_data)))
+
+duplicate_periods <- mortality_data |>
+  count(AREA, AGE_GROUP, SEX, YEAR, PERIOD, name = "n_rows") |>
+  filter(n_rows > 1)
+
+invalid_counts <- mortality_data |>
+  filter(is.na(NO_DEATHS) | NO_DEATHS < 0)
+
+coverage_summary <- mortality_data |>
+  summarise(
+    first_year = min(YEAR, na.rm = TRUE),
+    last_year = max(YEAR, na.rm = TRUE),
+    n_periods = n(),
+    n_missing = sum(is.na(NO_DEATHS)),
+    .by = c(AREA, AGE_GROUP, SEX)
+  )
+
+duplicate_periods
+invalid_counts
+coverage_summary
+```
+
+A missing value should trigger a review, rather than automatic
+replacement. Also compare each year with the expected number of months
+or ISO weeks. Continue with [Choosing models and interpreting excess
+mortality](https://shanlong-who.github.io/exmort/articles/models-and-interpretation.md)
+once the baseline and event data are ready.
