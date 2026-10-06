@@ -14,9 +14,9 @@ Description: An interactive 'shiny' application that estimates all-cause
     quasi-Poisson regression, zero-inflated Poisson regression, ARIMA
     (autoregressive integrated moving average) and SARIMA (seasonal ARIMA)
     models, GAM (generalized additive model) splines, and the model of
-    Karlinsky and Kobak (2021) <doi:10.7554/eLife.69336>) on a user-defined
-    baseline period, projects the expected deaths into the post-baseline
-    period, and reports excess deaths, P-scores (excess deaths as a
+    Karlinsky and Kobak (2021) <doi:10.7554/eLife.69336>) using periods outside
+    the supplied events, estimates expected deaths across the observed
+    series, and reports excess deaths, P-scores (excess deaths as a
     percentage of expected deaths) and confidence limits with tables, plots
     and downloadable reports. Launch the application with run_app().
 License: GPL-3
@@ -54,12 +54,15 @@ Imports:
     tidyr,
     zoo
 Suggests:
+    DSIR,
     officedown,
     testthat (>= 3.0.0),
     tinytex
 Config/testthat/edition: 3
 SystemRequirements: pandoc (>= 1.14) for report rendering; a LaTeX
     installation (for example TinyTeX) is required only for PDF reports.
-URL: https://github.com/shanlong-who/exmort
+VignetteBuilder: knitr
+URL: https://github.com/shanlong-who/exmort,
+    https://shanlong-who.github.io/exmort/
 BugReports: https://github.com/shanlong-who/exmort/issues
 Config/roxygen2/version: 8.0.0
