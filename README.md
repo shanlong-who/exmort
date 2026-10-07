@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/exmort)](https://cran.r-project.org/package=exmort)
+[![Lifecycle: mature](https://img.shields.io/badge/lifecycle-mature-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/exmort)](https://cran.r-project.org/package=exmort)
 <!-- badges: end -->
 
@@ -87,3 +88,4 @@ Use RStudio's Stop button or Escape in the console to stop the app.
 ## License
 
 GPL-3. © World Health Organization Regional Office for the Western Pacific.
+
