@@ -2,6 +2,8 @@
 
 ## exmort 0.1.1
 
+CRAN release: 2026-10-06
+
 - Added three vignettes covering installation and launch, input
   templates and data preparation, and baseline models and result
   interpretation.
