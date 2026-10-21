@@ -34,7 +34,7 @@ cause of death from a monthly workbook. It includes official Australian
 (2015-May 2026) and Philippine (2019-2024) examples, a cause-specific template,
 and separate historical-average and negative-binomial baselines. The seven
 all-cause models and Best Fit remain available. See the
-[cause-specific guide](inst/app/CAUSE_SPECIFIC.md) for use and data limitations.
+[cause-specific guide](https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md) for use and data limitations.
 The Philippine example compares 2024 with pandemic-inclusive 2019-2023 history;
 it is not a pre-pandemic counterfactual. These additions are not yet on CRAN.
 
