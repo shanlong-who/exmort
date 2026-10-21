@@ -128,7 +128,7 @@ rerun possible.
 ``` r
 
 packageVersion("exmort")
-#> [1] '0.1.1'
+#> [1] '0.1.1.9000'
 ```
 
 ## Prepare your own workbook

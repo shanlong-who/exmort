@@ -1,5 +1,16 @@
 # Changelog
 
+## exmort 0.1.1.9000
+
+- Added country and cause selection for monthly mortality workbooks,
+  with official Australia and Philippines examples and a cause-specific
+  template.
+- Added separate historical-average and negative-binomial cause
+  baselines, missing/zero-count guards, and count-prediction and P-score
+  uncertainty.
+- Preserved the seven all-cause models, GAM, Karlinsky-Kobak, and Best
+  Fit. Switching series clears predictions, AIC and report snapshots.
+
 ## exmort 0.1.1
 
 CRAN release: 2026-10-06
