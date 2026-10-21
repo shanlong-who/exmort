@@ -90,6 +90,7 @@ render_result_table <- function(d) {
 model_summary_module_ui <- function(id) {
   ns <- NS(id)
   fluidPage(
+    textOutput(ns("analysis_context")),
     useShinyjs(),
     # Add CSS using tags$style
     tags$head(
@@ -190,6 +191,7 @@ model_summary_module_server <- function(id, rv) {
   moduleServer(
     id,
     function(input, output, session) {
+      output$analysis_context <- renderText(rv$data_description)
       # Drives the conditionalPanel above.
       output$has_model_data <- reactive({
         !is.null(rv$total_prediction) && !is.null(rv$summary_by_event) && !is.null(rv$overall_summary)

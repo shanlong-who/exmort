@@ -11,6 +11,7 @@ library(zoo)         # na.locf for forward-filling area labels
 
 source_module("modules/utils.R")
 source_module("modules/data_validation.R")
+source_module("modules/cause_data.R")
 
 # UI for the Data tab
 data_process_module_ui <- function(id) {
@@ -57,7 +58,7 @@ data_process_module_ui <- function(id) {
                 choices = c(
                   "Choose a template" = "",
                   "Australia (empty template)", "Philippines (empty template)", "French Polynesia (empty template)",
-                  "Generic Monthly template", "Generic Weekly template",
+                  "Generic Monthly template", "Generic Weekly template", "Cause-specific monthly template",
                   "Australia (filled up to August 2020)", "Japan (filled up to August 2020)",
                   "Republic of Korea (filled up to August 2020)", "New Zealand (filled up to August 2020)",
                   "Philippines (filled up to August 2020)"
@@ -85,9 +86,7 @@ data_process_module_ui <- function(id) {
                 condition = paste0("input['", ns("filetype"), "'] == 2"),
                 selectizeInput(ns("samplecountry"),
                   label = "Choose a country",
-                  choices = c("Choose a country" = "",
-                              "Australia", "Japan", "Republic of Korea",
-                              "New Zealand", "Philippines")
+                  choices = c("Choose a country" = "", names(builtin_mortality_registry()))
                 ),
                 uiOutput(ns("selectbuiltinsheet")),
                 uiOutput(ns("selectbuiltineventsheet")),
@@ -97,13 +96,14 @@ data_process_module_ui <- function(id) {
               ),
               # Persistent validation feedback (stays visible after the modal is
               # dismissed so the user can fix the file against it).
-              uiOutput(ns("validation_panel"))
+              uiOutput(ns("validation_panel")),
+              uiOutput(ns("analysis_selection"))
             )
           ),
           tabPanel(
             "View Data",
             br(),
-            p("Below is the all-cause mortality data. Expected columns: 'AREA', 'AGE_GROUP', 'SEX', 'YEAR', 'PERIOD', 'NO_DEATHS'."),
+            p("Below is the selected mortality series. Expected columns: 'AREA', 'AGE_GROUP', 'SEX', 'YEAR', 'PERIOD', 'NO_DEATHS'."),
             wellPanel(
               h4("Merged Data Table"),
               p(class = "helper", style = "font-size:0.85em;color:#555;",
@@ -162,17 +162,64 @@ data_process_module_server <- function(id, rv) {
       acm_data = NULL,
       event_data = NULL,
       merged_data = NULL,
-      data_description = NULL
+      data_description = NULL,
+      source_note = NULL
     )
 
-    # Mirror local state into the shared reactiveValues so other modules see it.
+    selected_mortality <- reactive({
+      req(data$merged_data)
+      all_data <- data$merged_data
+      countries <- unique(all_data$COUNTRY)
+      country <- if (isTRUE(input$selected_country %in% countries)) input$selected_country else countries[1]
+      country_data <- all_data[all_data$COUNTRY == country, , drop = FALSE]
+      causes <- unique(country_data$CAUSE)
+      preferred <- if ("Total" %in% causes) "Total" else causes[1]
+      cause <- if (isTRUE(input$selected_cause %in% causes)) input$selected_cause else preferred
+      country_data[country_data$CAUSE == cause, , drop = FALSE]
+    })
+
+    output$analysis_selection <- renderUI({
+      req(data$merged_data)
+      countries <- unique(data$merged_data$COUNTRY)
+      country <- if (isTRUE(input$selected_country %in% countries)) input$selected_country else countries[1]
+      causes <- unique(data$merged_data$CAUSE[data$merged_data$COUNTRY == country])
+      selected <- if (isTRUE(input$selected_cause %in% causes)) input$selected_cause else if ("Total" %in% causes) "Total" else causes[1]
+      tagList(
+        tags$hr(),
+        selectInput(ns("selected_country"), "Country", countries, selected = country),
+        selectizeInput(ns("selected_cause"), "Cause of death", causes, selected = selected),
+        helpText("One country and one cause are analysed at a time. Changing either selection clears the previous results."),
+        textOutput(ns("selection_coverage")),
+        helpText(data$source_note)
+      )
+    })
+
+    output$selection_coverage <- renderText({
+      selected <- selected_mortality()
+      baseline <- selected[selected$event_index == "0", , drop = FALSE]
+      paste0(min(selected$YEAR), "-", max(selected$YEAR), "; ", nrow(selected), " periods; ",
+             sum(is.na(selected$NO_DEATHS)), " missing counts; ", nrow(baseline), " baseline periods. ",
+             if (nrow(baseline) < 24 && any(selected$CAUSE != "Total"))
+               "Cause-specific modelling needs at least two complete baseline years. You can inspect and download these data." else "")
+    })
+
+    observeEvent(selected_mortality(), {
+      clear_mortality_results(rv)
+      rv$selected_country <- selected_mortality()$COUNTRY[1]
+      rv$selected_cause <- selected_mortality()$CAUSE[1]
+    }, ignoreNULL = TRUE)
+
+    # Expose the selected series while retaining the complete imported dataset.
     observe({
       rv$acm_rawdata <- data$acm_rawdata
       rv$acm_data <- data$acm_data
       rv$event_data <- data$event_data
-      rv$merged_data <- data$merged_data
-      rv$data_description <- data$data_description
+      rv$source_note <- data$source_note
+      rv$merged_data <- if (is.null(data$merged_data)) NULL else selected_mortality()
+      rv$data_description <- if (is.null(data$merged_data)) data$data_description else
+        paste(data$data_description, "-", selected_mortality()$COUNTRY[1], "-", selected_mortality()$CAUSE[1])
     })
+
 
     # Last validation result, persisted so the inline panel survives the modal.
     validation_state <- reactiveVal(NULL)
@@ -226,7 +273,7 @@ data_process_module_server <- function(id, rv) {
     # National-total slice (most-aggregated SEX/AGE if a "Total" level exists),
     # so headline totals and the sparkline do not sum across subgroups.
     national_total <- reactive({
-      df <- as.data.frame(data$merged_data)
+      df <- as.data.frame(selected_mortality())
       # req(df) alone does NOT stop here: isTruthy() treats a data.frame as
       # truthy whenever it is non-NULL (a data.frame is a list, not atomic),
       # so an empty/NULL merged_data (as.data.frame(NULL) -> 0x0) would slip
@@ -238,9 +285,9 @@ data_process_module_server <- function(id, rv) {
     })
 
     health_metrics <- reactive({
-      df <- as.data.frame(data$merged_data)
+      df <- as.data.frame(selected_mortality())
       req(is.data.frame(df), nrow(df) > 0)
-      weekly <- max(df$PERIOD, na.rm = TRUE) > 12
+      weekly <- all(df$WM_IDENTIFIER == "Week")
       fmt <- function(y, p) if (weekly) sprintf("%d W%02d", y, p) else paste(y, month.abb[p])
       lo_y <- min(df$YEAR, na.rm = TRUE); lo_p <- min(df$PERIOD[df$YEAR == lo_y], na.rm = TRUE)
       hi_y <- max(df$YEAR, na.rm = TRUE); hi_p <- max(df$PERIOD[df$YEAR == hi_y], na.rm = TRUE)
@@ -259,7 +306,7 @@ data_process_module_server <- function(id, rv) {
 
     output$selectsheet <- renderUI({
       req(input$rawdatafile)
-      sheets <- readxl::excel_sheets(input$rawdatafile$datapath)
+      sheets <- mortality_sheet_names(input$rawdatafile$datapath)
       selected_sheet <- ifelse("National level" %in% sheets, "National level", sheets[1])
       selectInput(ns("sheetname"), "Select mortality data sheet", choices = sheets, selected = selected_sheet)
     })
@@ -278,9 +325,9 @@ data_process_module_server <- function(id, rv) {
 
     output$selectbuiltinsheet <- renderUI({
       req(input$samplecountry)
-      file_path <- file.path("XLSX", paste0(gsub(" ", "_", input$samplecountry), "_built_in_data.xlsx"))
+      file_path <- builtin_mortality_path(input$samplecountry)
       if (file.exists(file_path)) {
-        sheets <- readxl::excel_sheets(file_path)
+        sheets <- mortality_sheet_names(file_path)
         selected_sheet <- ifelse("National level" %in% sheets, "National level", sheets[1])
         selectInput(ns("builtinsheetname"), "Select mortality data sheet", choices = sheets, selected = selected_sheet)
       }
@@ -288,11 +335,11 @@ data_process_module_server <- function(id, rv) {
 
     output$selectbuiltineventsheet <- renderUI({
       req(input$samplecountry, input$builtinsheetname)
-      file_path <- file.path("XLSX", paste0(gsub(" ", "_", input$samplecountry), "_built_in_data.xlsx"))
+      file_path <- builtin_mortality_path(input$samplecountry)
       if (file.exists(file_path)) {
         sheets <- readxl::excel_sheets(file_path)
         event_sheets <- setdiff(sheets, input$builtinsheetname)
-        selected_event_sheet <- ifelse("events" %in% event_sheets, "events", event_sheets)
+        selected_event_sheet <- if ("events" %in% event_sheets) "events" else event_sheets[1]
         selectInput(ns("builtineventsheetname"), "Select events data sheet", choices = event_sheets, selected = selected_event_sheet)
       }
     })
@@ -313,7 +360,7 @@ data_process_module_server <- function(id, rv) {
           raw_data_new <- openxlsx::read.xlsx(temp_file, sheet = input$sheetname, colNames = FALSE)
 
           incProgress(0.4, detail = "Processing mortality data...")
-          acm_data_new <- process_mortality_data2(temp_file, input$sheetname)
+          acm_data_new <- read_mortality_sheet(temp_file, input$sheetname)
 
           incProgress(0.6, detail = "Loading events data...")
           event_data_new <- loadEventsData(temp_file, input$eventsheetname)
@@ -337,6 +384,7 @@ data_process_module_server <- function(id, rv) {
           }
 
           # Validation passed: commit the new data, then merge.
+          data$source_note <- mortality_source_note(temp_file)
           data$acm_rawdata <- raw_data_new
           data$acm_data <- acm_data_new
           data$event_data <- event_data_new
@@ -357,6 +405,10 @@ data_process_module_server <- function(id, rv) {
 
           shinyjs::html(ns("progress_upload"), "Data merged successfully!")
         },
+        error = function(e) {
+          validation_state(list(ok = FALSE, msg = conditionMessage(e)))
+          showNotification(conditionMessage(e), type = "error", duration = 15)
+        },
         finally = {
           if (file.exists(temp_file)) {
             unlink(temp_file)
@@ -376,22 +428,16 @@ data_process_module_server <- function(id, rv) {
       shinyjs::html(ns("progress_builtin"), "Loading built-in data, please wait...")
       shinyjs::show(ns("progress_builtin"))
 
-      # Map UI-friendly country labels to the underscored filenames in XLSX/.
-      country_name <- c("Australia", "Japan", "Republic_of_Korea", "New_Zealand", "Philippines")[
-        match(input$samplecountry, c(
-          "Australia", "Japan", "Republic of Korea", "New Zealand", "Philippines"
-        ))
-      ]
-
-      file_path <- file.path("XLSX", paste0(country_name, "_built_in_data.xlsx"))
+      file_path <- builtin_mortality_path(input$samplecountry)
 
       withProgress(message = "Loading built-in data...", value = 0, {
+        tryCatch({
         if (file.exists(file_path)) {
           incProgress(0.2, detail = "Reading mortality data...")
           raw_data_new <- openxlsx::read.xlsx(file_path, sheet = input$builtinsheetname, colNames = FALSE)
 
           incProgress(0.4, detail = "Processing mortality data...")
-          acm_data_new <- process_mortality_data2(file_path, input$builtinsheetname)
+          acm_data_new <- read_mortality_sheet(file_path, input$builtinsheetname)
 
           incProgress(0.6, detail = "Loading events data...")
           event_data_new <- loadEventsData(file_path, input$builtineventsheetname)
@@ -417,6 +463,7 @@ data_process_module_server <- function(id, rv) {
 
           incProgress(0.8, detail = "Merging data...")
           data$merged_data <- mergeEventsData(data$acm_data, data$event_data)
+          data$source_note <- mortality_source_note(file_path)
           data$data_description <- paste("Built-in", input$samplecountry, "data")
           validation_state(list(ok = TRUE))
 
@@ -433,6 +480,10 @@ data_process_module_server <- function(id, rv) {
         }
 
         incProgress(0.2, detail = "Complete!")
+        }, error = function(e) {
+          validation_state(list(ok = FALSE, msg = conditionMessage(e)))
+          showNotification(conditionMessage(e), type = "error", duration = 15)
+        })
       })
 
       shinyjs::delay(2000, shinyjs::hide(ns("progress_builtin")))
@@ -441,7 +492,7 @@ data_process_module_server <- function(id, rv) {
     # Formatted preview tables (shared reactable helper).
     output$ACM_table <- reactable::renderReactable({
       req(data$merged_data)
-      make_preview_table(data$merged_data)
+      make_preview_table(selected_mortality())
     })
 
     # Show the tidy processed mortality data (real headers) instead of the
@@ -461,7 +512,7 @@ data_process_module_server <- function(id, rv) {
       },
       content = function(file) {
         req(data$merged_data)
-        openxlsx::write.xlsx(data$merged_data, file, rowNames = FALSE)
+        openxlsx::write.xlsx(selected_mortality(), file, rowNames = FALSE)
       }
     )
 
@@ -509,7 +560,7 @@ data_process_module_server <- function(id, rv) {
     output$health_spark <- plotly::renderPlotly({
       df <- national_total()
       req(nrow(df) > 0)
-      weekly <- max(df$PERIOD, na.rm = TRUE) > 12
+      weekly <- all(df$WM_IDENTIFIER == "Week")
       s <- df %>%
         group_by(YEAR, PERIOD) %>%
         summarise(
@@ -543,7 +594,7 @@ data_process_module_server <- function(id, rv) {
     })
 
     output$health_breakdown <- reactable::renderReactable({
-      df <- as.data.frame(data$merged_data)
+      df <- as.data.frame(selected_mortality())
       # Guard on rows, not just non-NULL: req(df) passes on an empty data.frame
       # (isTruthy treats a non-NULL list as truthy), which left `grp` as
       # names(df)[1] = NA_character_ on a 0-column frame and crashed group_by().
@@ -582,6 +633,7 @@ data_process_module_server <- function(id, rv) {
     # Template download handler
     output$download_templates <- downloadHandler(
       filename = function() {
+        if (identical(input$template_country, "Cause-specific monthly template")) return("Cause_specific_monthly_template.xlsx")
         paste0(c(
           "Australia (empty template).xlsx", "Philippines (empty template).xlsx", "French Polynesia (empty template).xlsx",
           "Data Entry Template - monthly.xlsx", "Data Entry Template - weekly.xlsx",
@@ -599,6 +651,10 @@ data_process_module_server <- function(id, rv) {
         ])
       },
       content = function(file) {
+        if (identical(input$template_country, "Cause-specific monthly template")) {
+          file.copy("XLSX/Cause_specific_monthly_template.xlsx", file)
+          return(invisible(NULL))
+        }
         file.copy(
           from = paste0(
             "./XLSX/",

@@ -30,10 +30,12 @@ build_report_figures <- function(total_predictions, selected_models, dpi = 150) 
         as.Date(sprintf("%d-%02d-15", YEAR, PERIOD))
       },
       EXCESS_DEATHS = NO_DEATHS - EXP_DEATHS,
-      P_SCORE       = ifelse(abs(EXP_DEATHS) > 1e-6, EXCESS_DEATHS / EXP_DEATHS * 100, NA_real_)
+      P_SCORE       = ifelse(is.finite(EXP_DEATHS) & EXP_DEATHS > 0, EXCESS_DEATHS / EXP_DEATHS * 100, NA_real_)
     )
   if (nrow(plot_data) == 0) return(na_res)
 
+  cause_mode <- "CAUSE" %in% names(plot_data) && any(plot_data$CAUSE != "Total")
+  context <- if (cause_mode) paste(plot_data$COUNTRY[1], plot_data$CAUSE[1], sep = " | ") else NULL
   model_cols <- get_model_colors()
 
   # Event windows for shading.
@@ -74,7 +76,7 @@ build_report_figures <- function(total_predictions, selected_models, dpi = 150) 
   acm <- add_events(acm, yr[1], yr[2]) +
     scale_colour_manual(name = NULL, values = c("Recorded" = "black", model_cols)) +
     scale_y_continuous(labels = scales::comma) +
-    labs(title = "All-cause mortality: recorded vs expected", x = NULL, y = "Number of deaths") +
+    labs(title = if (cause_mode) "Deaths: recorded vs expected" else "All-cause mortality: recorded vs expected", subtitle = context, x = NULL, y = "Number of deaths") +
     theme_wpro() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
   # 2) Excess deaths
@@ -85,7 +87,7 @@ build_report_figures <- function(total_predictions, selected_models, dpi = 150) 
   exc <- add_events(exc, er[1], er[2]) +
     scale_fill_manual(values = model_cols) +
     scale_y_continuous(labels = scales::comma) +
-    labs(title = "Excess deaths", x = NULL, y = "Excess deaths") +
+    labs(title = "Excess deaths", subtitle = context, x = NULL, y = "Excess deaths") +
     theme_wpro() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
   # 3) P-score
@@ -95,7 +97,7 @@ build_report_figures <- function(total_predictions, selected_models, dpi = 150) 
     geom_hline(yintercept = 0, linetype = "dashed", colour = "grey40") +
     scale_fill_manual(values = model_cols) +
     scale_y_continuous(labels = function(x) paste0(x, "%")) +
-    labs(title = "P-score (excess as % of expected)", x = NULL, y = "P-score (%)") +
+    labs(title = "P-score (excess as % of expected)", subtitle = context, x = NULL, y = "P-score (%)") +
     theme_wpro() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
   out <- tryCatch(

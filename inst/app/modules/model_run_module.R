@@ -19,6 +19,8 @@ source_module("modules/ACM_zip.R")
 source_module("modules/ACM_arima.R")
 source_module("modules/ACM_gam.R")
 source_module("modules/ACM_karlinsky.R")
+source_module("modules/cause_data.R")
+source_module("modules/cause_analysis.R")
 
 # Single source of truth for the model line-up. Each entry drives the UI
 # checkbox, the run loop, the result aggregation, and the status table.
@@ -141,6 +143,8 @@ model_run_module_ui <- function(id) {
           width = 8,
           wellPanel(
             h4("Data Filtering"),
+            textOutput(ns("analysis_context")),
+            uiOutput(ns("cause_model_note")),
             fluidRow(
               column(width = 6,
                 h5("Sex:"),
@@ -229,6 +233,21 @@ model_run_module_server <- function(id, rv) {
         !is.null(rv$merged_data)
       })
       outputOptions(output, "has_data", suspendWhenHidden = FALSE)
+
+      output$analysis_context <- renderText(rv$data_description)
+      output$cause_model_note <- renderUI({
+        if (is_cause_series(rv$merged_data)) helpText("Monthly cause-specific analysis uses Historical Average and Negative Binomial. Other models remain available for all-cause data. Death/excess bounds are prediction intervals; P-score bounds reflect expected-mean uncertainty.")
+      })
+      observe({
+        cause_mode <- is_cause_series(rv$merged_data)
+        for (m in MODELS) {
+          if (cause_mode && !m$key %in% c("hist", "nb")) {
+            shinyjs::disable(model_input_id(m$key))
+          } else {
+            shinyjs::enable(model_input_id(m$key))
+          }
+        }
+      })
 
       # Apply per-model default values once at startup.
       observe({
@@ -335,7 +354,8 @@ model_run_module_server <- function(id, rv) {
 
       get_selected_models <- reactive({
         Filter(Negate(is.null), lapply(MODELS, function(m) {
-          if (isTRUE(input[[model_input_id(m$key)]])) m$label else NULL
+          supported <- !is_cause_series(rv$merged_data) || m$key %in% c("hist", "nb")
+          if (supported && isTRUE(input[[model_input_id(m$key)]])) m$label else NULL
         })) |> unlist(use.names = FALSE)
       })
 
@@ -347,6 +367,12 @@ model_run_module_server <- function(id, rv) {
         updateProgress(10, "Preparing data...")
         req(filtered_data())
         data <- filtered_data()
+        clear_mortality_results(rv)
+        if (length(selected_models) == 0L) {
+          shinyjs::enable("run")
+          updateProgress(0, "Select at least one supported model.")
+          return(NULL)
+        }
 
         if (nrow(data) == 0) {
           shinyjs::html("progress-message", "Error: No data available after filtering")
@@ -374,7 +400,7 @@ model_run_module_server <- function(id, rv) {
           flush.console()
 
           results[[m$key]] <- tryCatch({
-            result <- m$fcn(data)
+            result <- if (is_cause_series(data)) run_cause_model(data, m$key) else m$fcn(data)
             if (is.null(result) || !is.data.frame(result)) {
               dplyr::tibble()
             } else {
@@ -519,19 +545,20 @@ model_run_module_server <- function(id, rv) {
               }
             }
             
-            combined_results <- combined_results %>%
+            # Keep fractional expected values and coherent summaries for causes.
+            if (!is_cause_series(data)) combined_results <- combined_results %>%
               mutate(across(all_of(existing_integer_cols), round))
 
             cols_to_remove <- intersect(
               names(combined_results),
-              c("COUNTRY", "ISO3", "AREA", "CAUSE", "DATE_TO_SPECIFY_WEEK", "SE_IDENTIFIER")
+              c("DATE_TO_SPECIFY_WEEK", "SE_IDENTIFIER")
             )
             if (length(cols_to_remove) > 0) {
               combined_results <- combined_results %>% select(-all_of(cols_to_remove))
             }
             
             # Define desired column order, ensuring all columns exist
-            desired_cols <- c("WM_IDENTIFIER", "YEAR", "PERIOD", "SEX", "AGE_GROUP", 
+            desired_cols <- c("COUNTRY", "ISO3", "CAUSE", "AREA", "WM_IDENTIFIER", "YEAR", "PERIOD", "SEX", "AGE_GROUP",
                               "NO_DEATHS", "EXP_DEATHS", "LOWER_LIMIT", "UPPER_LIMIT", 
                               "EXCESS_DEATHS", "P_SCORE", "P_LOWER", "P_UPPER", # Added P_LOWER, P_UPPER
                               "event_index", "event_name", "SERIES", "Model")
@@ -584,7 +611,7 @@ model_run_module_server <- function(id, rv) {
             existing_integer_cols_sum <- intersect(names(combined_summary), possible_integer_cols_sum)
             existing_decimal_cols_sum <- intersect(names(combined_summary), possible_decimal_cols_sum)
 
-            if (length(existing_integer_cols_sum) > 0) {
+            if (!is_cause_series(data) && length(existing_integer_cols_sum) > 0) {
               combined_summary <- combined_summary %>%
                 mutate(across(all_of(existing_integer_cols_sum), ~ round(as.numeric(.))))
             }
@@ -619,7 +646,7 @@ model_run_module_server <- function(id, rv) {
           if (length(all_overall_summaries) > 0) {
             combined_overall <- dplyr::bind_rows(all_overall_summaries)
             # Apply formatting
-            if (length(existing_integer_cols_sum) > 0) { # Reusing col definitions from summary_by_event
+            if (!is_cause_series(data) && length(existing_integer_cols_sum) > 0) { # Reusing col definitions from summary_by_event
               combined_overall <- combined_overall %>%
                 mutate(across(all_of(intersect(names(combined_overall), existing_integer_cols_sum)), ~ round(as.numeric(.))))
             }

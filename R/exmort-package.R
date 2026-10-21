@@ -15,6 +15,7 @@
 #' @importFrom data.table as.data.table
 #' @importFrom dplyr across
 #' @importFrom DT datatable
+#' @importFrom flextable flextable
 #' @importFrom forecast auto.arima
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggrepel geom_text_repel
@@ -40,5 +41,6 @@
 #' @importFrom stringr str_detect
 #' @importFrom tibble tibble
 #' @importFrom tidyr pivot_longer
+#' @importFrom withr with_seed
 #' @importFrom zoo na.locf
 "_PACKAGE"

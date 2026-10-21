@@ -1,3 +1,4 @@
+source_module("modules/cause_analysis.R")
 # Report Module
 # Generates an in-app HTML preview of the report and renders downloads
 # in HTML, PDF, or Word (officedown-docx) formats from a shared Rmd
@@ -262,6 +263,9 @@ report_module_server <- function(id, rv) {
         }
         logo <- normalizePath("www/WHO-WPRO_Logo_PMS_2925.png", mustWork = FALSE)
         list(
+          data_description  = if (is.null(rv$data_description)) "" else rv$data_description,
+          source_note       = if (is.null(rv$source_note)) "" else rv$source_note,
+          cause_mode        = is_cause_series(filtered_total_predictions()),
           total_predictions = filtered_total_predictions(),
           summary_by_event  = filtered_summary_by_event(),
           overall_summary   = filtered_overall_summary(),
@@ -304,7 +308,7 @@ report_module_server <- function(id, rv) {
       observeEvent(
         list(input$selected_sex, input$selected_age_group, input$selected_models,
              input$selected_event, input$include_summary, input$include_tables,
-             input$include_plots, rv$total_prediction),
+             input$include_plots, rv$total_prediction, rv$source_note, rv$data_description),
         {
           report_generated(FALSE)
           report_params(NULL)

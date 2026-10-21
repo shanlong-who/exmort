@@ -1,6 +1,6 @@
 Package: exmort
 Title: All-Cause and Excess Mortality Calculator
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: c(
     person("Shanlong", "Ding", email = "dings@who.int",
            role = c("aut", "cre")),
@@ -8,7 +8,7 @@ Authors@R: c(
            role = c("cph", "fnd")))
 Description: An interactive 'shiny' application that estimates all-cause
     mortality and excess mortality from country-level weekly or monthly death
-    counts. Users supply observed deaths and an event calendar (for example
+    counts, including separate monthly analyses by cause of death. Users supply observed deaths and an event calendar (for example
     COVID-19 waves or typhoons); the app fits one or more statistical
     baseline models (historical average, negative binomial regression,
     quasi-Poisson regression, zero-inflated Poisson regression, ARIMA
@@ -27,6 +27,7 @@ Imports:
     data.table,
     dplyr,
     DT,
+    flextable,
     forecast,
     ggplot2,
     ggrepel,
@@ -52,6 +53,7 @@ Imports:
     stringr,
     tibble,
     tidyr,
+    withr,
     zoo
 Suggests:
     DSIR,
