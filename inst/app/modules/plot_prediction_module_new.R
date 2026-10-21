@@ -16,6 +16,7 @@ plot_prediction_module_ui <- function(id) {
       sidebarPanel(
         width = 3,
         h4("Data Filtering"),
+                textOutput(ns("analysis_context")),
         uiOutput(ns("sex_selector")),
         uiOutput(ns("age_group_selector")),
         h4("Model Selection"),
@@ -35,7 +36,7 @@ plot_prediction_module_ui <- function(id) {
         width = 9,
         tabsetPanel(
           id = ns("plotTabs"),
-          tabPanel("All Cause Mortality", br(), h4("All Cause Mortality (Recorded vs. Expected)"), wpro_spinner(plotlyOutput(ns("ACMplot"), height = "600px"))),
+          tabPanel("Recorded vs. Expected", br(), h4("Mortality (Recorded vs. Expected)"), wpro_spinner(plotlyOutput(ns("ACMplot"), height = "600px"))),
           tabPanel(
             "Excess Deaths",
             br(),
@@ -62,6 +63,7 @@ plot_prediction_module_ui <- function(id) {
 
 plot_prediction_module_server <- function(id, rv) {
   moduleServer(id, function(input, output, session) {
+      output$analysis_context <- renderText(rv$data_description)
     ns <- session$ns
 
     # Filter selectors are populated from whatever values appear in

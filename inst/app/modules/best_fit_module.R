@@ -31,14 +31,15 @@ best_fit_module_ui <- function(id) {
         column(
           12,
           h3("Best Fit by AIC"),
+          textOutput(ns("analysis_context")),
           p(
             "Lower AIC indicates a better in-sample fit on the baseline period. ",
-            "AIC is only comparable across the count-regression models (Negative ",
-            "Binomial and Zero-Inflated Poisson). Historical Average has no ",
-            "parametric likelihood, the Quasi-Poisson family yields no proper ",
-            "AIC, and ARIMA is a Gaussian time-series model whose likelihood is ",
-            "not on the same scale as the count models. These three are marked ",
-            "N/A and excluded from the best-fit selection."
+            "AIC is compared across the count-regression models: Negative ",
+            "Binomial, GAM and Zero-Inflated Poisson. Historical Average, ",
+            "Quasi-Poisson, ARIMA and Karlinsky-Kobak are marked N/A and excluded ",
+            "from this comparison. Cause-specific runs currently offer only one ",
+            "eligible AIC model (Negative Binomial); this does not establish ",
+            "superiority over alternative baselines."
           ),
           br(),
           uiOutput(ns("best_banner")),
@@ -54,6 +55,7 @@ best_fit_module_ui <- function(id) {
 
 best_fit_module_server <- function(id, rv) {
   moduleServer(id, function(input, output, session) {
+      output$analysis_context <- renderText(rv$data_description)
 
     output$has_aic_data <- reactive({
       !is.null(rv$model_aic) && nrow(rv$model_aic) > 0

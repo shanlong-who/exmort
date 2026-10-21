@@ -1,6 +1,9 @@
 ---
-title: "All-Cause and Excess Mortality Report"
+title: "Mortality Analysis Report"
 params:
+  data_description: ""
+  source_note: ""
+  cause_mode: FALSE
   total_predictions: !r data.frame()
   summary_by_event:  !r data.frame()
   overall_summary:   !r data.frame()
@@ -45,7 +48,8 @@ LABELS <- c(
   LOWER_LIMIT = "Expected (lower)", UPPER_LIMIT = "Expected (upper)",
   TOTAL_DEATHS = "Recorded", TOTAL_EXPECTED = "Expected", TOTAL_EXCESS = "Excess",
   EXCESS_LOWER = "Excess (lower)", EXCESS_UPPER = "Excess (upper)",
-  TOTAL_SE = "SE", P_SCORE = "P-score (%)"
+  TOTAL_SE = "SE", P_SCORE = "P-score (%)", P_LOWER = "P-score (lower)",
+  P_UPPER = "P-score (upper)", COUNTRY = "Country", CAUSE = "Cause", ISO3 = "Country code"
 )
 
 # Format a data frame as a page-width flextable: thousands separators on count
@@ -80,7 +84,10 @@ fwd <- function(p) gsub("\\\\", "/", p)  # markdown-safe forward-slash paths
 if (!is.na(params$logo_path) && nzchar(params$logo_path) && file.exists(params$logo_path)) {
   cat(sprintf('\n\n![](%s){width=180px}\n\n', fwd(params$logo_path)))
 }
-cat("# All-Cause and Excess Mortality Report\n\n")
+cat(if (isTRUE(params$cause_mode)) "# Cause-Specific Excess Mortality Report\n\n" else "# All-Cause and Excess Mortality Report\n\n")
+cat(sprintf("**Selected series:** %s\n\n", params$data_description))
+if (nzchar(params$source_note)) cat(sprintf("**Source and interpretation:** %s\n\n", params$source_note))
+if (isTRUE(params$cause_mode)) cat("Death and excess-death bounds are approximate 95% counterfactual count prediction intervals. P-score bounds reflect uncertainty in the expected mean. These estimates do not establish attribution to an event.\n\n")
 cat(sprintf("**WHO Western Pacific Region** &nbsp;|&nbsp; Generated %s\n\n",
             if (nzchar(params$generated_on)) params$generated_on else format(Sys.Date())))
 cat(sprintf(
@@ -141,7 +148,7 @@ ft(params$model_aic, caption = "Model fit — AIC (lower is better; N/A models e
 
 ```{r figures, eval = isTRUE(params$include_plots), results = 'asis'}
 figs <- c(
-  "All-cause mortality: recorded vs expected" = params$fig_acm,
+  "Mortality: recorded vs expected" = params$fig_acm,
   "Excess deaths"                             = params$fig_excess,
   "P-score (excess as % of expected)"         = params$fig_pscore)
 figs <- figs[!is.na(figs) & vapply(figs, function(p) is.character(p) && nzchar(p) && file.exists(p), logical(1))]

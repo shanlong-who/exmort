@@ -1,3 +1,4 @@
+source_module("modules/cause_analysis.R")
 # --- 1. Load Libraries ---
 # Libraries are assumed to be loaded in app.R
 # library(shiny)
@@ -17,6 +18,7 @@ plot_total_module_ui <- function(id) {
             sidebarPanel(
                 width = 3,
                 h4("Data Filtering"),
+                textOutput(ns("analysis_context")),
                 # Add data loading status indicator
                 uiOutput(ns("data_status")),
                 # Dynamically generate UI selectors
@@ -58,6 +60,7 @@ plot_total_module_ui <- function(id) {
 # --- 3. Define Module Server ---
 plot_total_module_server <- function(id, rv) {
     moduleServer(id, function(input, output, session) {
+      output$analysis_context <- renderText(rv$data_description)
         ns <- session$ns
 
         # --- Data Monitoring ---
@@ -262,7 +265,7 @@ plot_total_module_server <- function(id, rv) {
                     text = if (has_ci) {
                         paste0("Model: ", model_name,
                               "<br>Excess Deaths: ", round(model_data$TOTAL_EXCESS, 2),
-                              "<br>95% CI: ", round(model_data$EXCESS_LOWER, 2), ", ", round(model_data$EXCESS_UPPER, 2))
+                              "<br>", if (is_cause_series(data)) "95% prediction interval: " else "95% CI: ", round(model_data$EXCESS_LOWER, 2), ", ", round(model_data$EXCESS_UPPER, 2))
                     } else {
                         paste("Model:", model_name,
                               "<br>Excess Deaths:", round(model_data$TOTAL_EXCESS, 2))
@@ -276,6 +279,7 @@ plot_total_module_server <- function(id, rv) {
 
             # Set layout
             plot_subtitle <- paste("Sex:", input$selected_sex, "| Age Group:", input$selected_age_group)
+            if (is_cause_series(data)) plot_subtitle <- paste(htmltools::htmlEscape(paste(data$COUNTRY[1], data$CAUSE[1], sep = " | ")), plot_subtitle, sep = "<br>")
 
             p <- p %>% layout(
                 title = list(
@@ -338,7 +342,9 @@ plot_total_module_server <- function(id, rv) {
 
             # Check if confidence intervals are available
             has_ci <- FALSE
-            if ("EXCESS_LOWER" %in% names(data) && "EXCESS_UPPER" %in% names(data) &&
+            if (is_cause_series(data) && all(c("P_LOWER", "P_UPPER") %in% names(data))) {
+                has_ci <- TRUE
+            } else if ("EXCESS_LOWER" %in% names(data) && "EXCESS_UPPER" %in% names(data) &&
                 "TOTAL_EXPECTED" %in% names(data)) {
                 data <- data %>% mutate(
                     P_LOWER = (EXCESS_LOWER / TOTAL_EXPECTED) * 100,
@@ -402,6 +408,7 @@ plot_total_module_server <- function(id, rv) {
 
             # Set layout
             plot_subtitle <- paste("Sex:", input$selected_sex, "| Age Group:", input$selected_age_group)
+            if (is_cause_series(data)) plot_subtitle <- paste(htmltools::htmlEscape(paste(data$COUNTRY[1], data$CAUSE[1], sep = " | ")), plot_subtitle, sep = "<br>")
 
             p <- p %>% layout(
                 title = list(
@@ -501,6 +508,7 @@ plot_total_module_server <- function(id, rv) {
                     has_ci <- "EXCESS_LOWER" %in% names(data) && "EXCESS_UPPER" %in% names(data)
 
                     plot_subtitle <- paste("Sex:", input$selected_sex, "| Age Group:", input$selected_age_group)
+                    if (is_cause_series(data)) plot_subtitle <- paste(stringr::str_wrap(paste(data$COUNTRY[1], data$CAUSE[1], sep = " | "), 85), plot_subtitle, sep = "\n")
 
                     p <- ggplot(data, aes(x = Model, y = TOTAL_EXCESS, fill = Model)) +
                         geom_col(position = "dodge", alpha = 0.7) +
@@ -565,7 +573,7 @@ plot_total_module_server <- function(id, rv) {
                     if (nrow(data) > 0) {
                         has_ci <- "EXCESS_LOWER" %in% names(data) && "EXCESS_UPPER" %in% names(data)
 
-                        if (has_ci) {
+                        if (has_ci && !(is_cause_series(data) && all(c("P_LOWER", "P_UPPER") %in% names(data)))) {
                             data <- data %>% mutate(
                                 P_LOWER = (EXCESS_LOWER / TOTAL_EXPECTED) * 100,
                                 P_UPPER = (EXCESS_UPPER / TOTAL_EXPECTED) * 100
@@ -573,6 +581,7 @@ plot_total_module_server <- function(id, rv) {
                         }
 
                         plot_subtitle <- paste("Sex:", input$selected_sex, "| Age Group:", input$selected_age_group)
+                        if (is_cause_series(data)) plot_subtitle <- paste(stringr::str_wrap(paste(data$COUNTRY[1], data$CAUSE[1], sep = " | "), 85), plot_subtitle, sep = "\n")
 
                         p <- ggplot(data, aes(x = Model, y = P_SCORE, fill = Model)) +
                             geom_col(position = "dodge", alpha = 0.7) +

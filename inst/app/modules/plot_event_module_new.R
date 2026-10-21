@@ -1,3 +1,4 @@
+source_module("modules/cause_analysis.R")
 # --- 1. Load Libraries ---
 # Libraries are assumed to be loaded in the main app.R or global.R
 # library(shiny)
@@ -25,6 +26,7 @@ plot_event_module_ui <- function(id) {
             sidebarPanel(
                 width = 3,
                 h4("Data Filtering"),
+                textOutput(ns("analysis_context")),
                 # Use uiOutput for dynamic choices based on loaded data
                 uiOutput(ns("sex_filter_ui")),
                 uiOutput(ns("age_group_filter_ui")),
@@ -81,6 +83,7 @@ plot_event_module_ui <- function(id) {
 # --- Module Server ---
 plot_event_module_server <- function(id, rv) {
     moduleServer(id, function(input, output, session) {
+      output$analysis_context <- renderText(rv$data_description)
         ns <- session$ns # Get the namespace function
 
         # --- Reactive UI for Filters ---
@@ -285,7 +288,9 @@ plot_event_module_server <- function(id, rv) {
             }
             
             has_ci <- "EXCESS_LOWER" %in% names(data) && "EXCESS_UPPER" %in% names(data)
-            ci_caption <- if(has_ci) "Note: Error bars represent 95% confidence intervals." else NULL
+            ci_caption <- if (has_ci) {
+                if (is_cause_series(data)) "Note: Error bars show 95% count prediction intervals." else "Note: Error bars represent 95% confidence intervals."
+            } else NULL
             
             message("Starting to create excess plot (module)...")
             
@@ -345,6 +350,7 @@ plot_event_module_server <- function(id, rv) {
             }
             
             message("Excess plot creation complete (module)")
+            if (is_cause_series(data)) p <- p + labs(subtitle = stringr::str_wrap(paste(data$COUNTRY[1], data$CAUSE[1], sep = " | "), 85))
             return(p)
         }
         
@@ -384,7 +390,10 @@ plot_event_module_server <- function(id, rv) {
 
             has_ci <- FALSE
             ci_caption <- NULL
-            if ("EXCESS_LOWER" %in% names(data) && "EXCESS_UPPER" %in% names(data)) {
+            if (is_cause_series(data) && all(c("P_LOWER", "P_UPPER") %in% names(data))) {
+                has_ci <- TRUE
+                ci_caption <- "Note: Error bars show 95% P-score intervals based on expected-mean uncertainty."
+            } else if ("EXCESS_LOWER" %in% names(data) && "EXCESS_UPPER" %in% names(data)) {
                 data <- data %>% mutate(
                     P_LOWER = (EXCESS_LOWER / TOTAL_EXPECTED) * 100,
                     P_UPPER = (EXCESS_UPPER / TOTAL_EXPECTED) * 100
@@ -450,6 +459,7 @@ plot_event_module_server <- function(id, rv) {
             }
             
             message("P-Score plot creation complete (module)")
+            if (is_cause_series(data)) p <- p + labs(subtitle = stringr::str_wrap(paste(data$COUNTRY[1], data$CAUSE[1], sep = " | "), 85))
             return(p)
         }
         
