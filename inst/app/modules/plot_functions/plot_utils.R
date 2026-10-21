@@ -23,7 +23,8 @@ extract_event_data <- function(data) {
       )
 
     if (nrow(event_data) > 0) {
-      event_colors <- RColorBrewer::brewer.pal(min(nrow(event_data), 12), "Set3")
+      event_colors <- rep(RColorBrewer::brewer.pal(max(3, min(nrow(event_data), 12)), "Set3"),
+                          length.out = nrow(event_data))
       names(event_colors) <- unique(event_data$event_name)
       attr(event_data, "event_colors") <- event_colors
     }
@@ -69,7 +70,7 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
   # The old `NO_DEATHS > 0` silently dropped those periods from every plot.
   # Only genuine NA counts are excluded (they cannot be plotted anyway).
   data <- data %>%
-    filter(!is.na(NO_DEATHS), if (plot_type %in% c("EP_bar", "EP_line")) abs(EXP_DEATHS) > 1e-6 else TRUE) %>%
+    filter(!is.na(NO_DEATHS), if (plot_type %in% c("EP_bar", "EP_line")) is.finite(EXP_DEATHS) & EXP_DEATHS > 0 else TRUE) %>%
     mutate(
       EXCESS_DEATHS = NO_DEATHS - EXP_DEATHS,
       P_SCORE = if (plot_type %in% c("EP_bar", "EP_line")) (EXCESS_DEATHS / EXP_DEATHS) * 100 else NA_real_
@@ -93,8 +94,12 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
       mutate(
         EXCESS_LOWER = NO_DEATHS - UPPER_LIMIT,
         EXCESS_UPPER = NO_DEATHS - LOWER_LIMIT,
-        P_SCORE_LOWER = if (plot_type %in% c("EP_bar", "EP_line")) (NO_DEATHS - UPPER_LIMIT) / EXP_DEATHS * 100 else NA_real_,
-        P_SCORE_UPPER = if (plot_type %in% c("EP_bar", "EP_line")) (NO_DEATHS - LOWER_LIMIT) / EXP_DEATHS * 100 else NA_real_
+        P_SCORE_LOWER = if (plot_type %in% c("EP_bar", "EP_line")) {
+          if ("P_LOWER" %in% names(data)) P_LOWER else (NO_DEATHS - UPPER_LIMIT) / EXP_DEATHS * 100
+        } else NA_real_,
+        P_SCORE_UPPER = if (plot_type %in% c("EP_bar", "EP_line")) {
+          if ("P_UPPER" %in% names(data)) P_UPPER else (NO_DEATHS - LOWER_LIMIT) / EXP_DEATHS * 100
+        } else NA_real_
       )
   }
 
@@ -142,14 +147,17 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
   time_breaks <- seq(date_range[1], date_range[2], by = "3 months")
 
   # 标题和副标题（保持不变）
+  cause_mode <- "CAUSE" %in% names(data) && any(data$CAUSE != "Total")
   title <- switch(plot_type,
-                  ACM = "All Cause Mortality: Recorded vs. Expected",
+                  ACM = if (cause_mode) "Deaths: Recorded vs. Expected" else "All Cause Mortality: Recorded vs. Expected",
                   ED_bar = "Excess Deaths",
                   ED_line = "Excess Deaths (Line Plot)",
                   EP_bar = "P-Score of Excess Deaths (%)",
                   EP_line = "P-Score (Line Plot)")
   subtitle <- paste("Sex:", selected_sex, "| Age Group:", selected_age_group)
-  ci_caption <- if (has_ci) "Note: Shaded areas represent 95% CI." else NULL
+  if (cause_mode) subtitle <- paste(data$COUNTRY[1], data$CAUSE[1], subtitle, sep = " | ")
+  interval_label <- if (cause_mode && !plot_type %in% c("EP_bar", "EP_line")) "95% prediction interval" else "95% CI"
+  ci_caption <- if (has_ci) paste0("Note: Intervals show ", interval_label, ".") else NULL
 
   # 模型颜色（保持不变）
   model_colors <- get_model_colors()
@@ -184,12 +192,12 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
           mutate(hover_text = if (has_ci) {
             paste0("Time: ", format(TimePoint, "%Y-%m-%d"),
                   "<br>Model: ", Model,
-                  "<br>Expected Deaths: ", round(EXP_DEATHS),
-                  "<br>95% CI: ", round(LOWER_LIMIT), ", ", round(UPPER_LIMIT))
+                  "<br>Expected Deaths: ", round(EXP_DEATHS, 2),
+                  "<br>", interval_label, ": ", round(LOWER_LIMIT), ", ", round(UPPER_LIMIT))
           } else {
             paste0("Time: ", format(TimePoint, "%Y-%m-%d"),
                   "<br>Model: ", Model,
-                  "<br>Expected Deaths: ", round(EXP_DEATHS))
+                  "<br>Expected Deaths: ", round(EXP_DEATHS, 2))
           })
         line_color <- model_colors[model_name] %||% "#999999"
         line_dash <- switch(model_name,
@@ -215,7 +223,7 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
               x = ~TimePoint,
               ymin = ~LOWER_LIMIT,
               ymax = ~UPPER_LIMIT,
-              name = paste(model_name, "95% CI"),
+              name = paste(model_name, interval_label),
               line = list(color = "transparent"),
               fillcolor = adjustcolor(line_color, alpha.f = 0.2),
               showlegend = FALSE,
@@ -233,7 +241,7 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
                   "<br>", if (plot_type == "ED_bar") "Excess Deaths: " else "P-Score: ",
                   round(if (plot_type == "ED_bar") EXCESS_DEATHS else P_SCORE, 2),
                   if (plot_type == "EP_bar") "%" else "",
-                  "<br>95% CI: ",
+                  "<br>", interval_label, ": ",
                   round(if (plot_type == "ED_bar") EXCESS_LOWER else P_SCORE_LOWER, 2), ", ",
                   round(if (plot_type == "ED_bar") EXCESS_UPPER else P_SCORE_UPPER, 2),
                   if (plot_type == "EP_bar") "%" else "")
@@ -288,7 +296,7 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
                   "<br>", if (plot_type == "ED_line") "Excess Deaths: " else "P-Score: ",
                   round(if (plot_type == "ED_line") EXCESS_DEATHS else P_SCORE, 2),
                   if (plot_type == "EP_line") "%" else "",
-                  "<br>95% CI: ",
+                  "<br>", interval_label, ": ",
                   round(if (plot_type == "ED_line") EXCESS_LOWER else P_SCORE_LOWER, 2), ", ",
                   round(if (plot_type == "ED_line") EXCESS_UPPER else P_SCORE_UPPER, 2),
                   if (plot_type == "EP_line") "%" else "")
@@ -323,7 +331,7 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
               x = ~TimePoint,
               ymin = if (plot_type == "ED_line") ~EXCESS_LOWER else ~P_SCORE_LOWER,
               ymax = if (plot_type == "ED_line") ~EXCESS_UPPER else ~P_SCORE_UPPER,
-              name = paste(model_name, "95% CI"),
+              name = paste(model_name, interval_label),
               line = list(color = "transparent"),
               fillcolor = adjustcolor(line_color, alpha.f = 0.2),
               showlegend = FALSE,
@@ -469,7 +477,7 @@ create_mortality_plot <- function(data, plot_type = c("ACM", "ED_bar", "ED_line"
         labels = if (plot_type %in% c("EP_bar", "EP_line")) scales::percent_format(scale = 1) else scales::number_format(big.mark = ",")
       ) +
       scale_color_manual(name = "Series", values = c("Recorded" = "black", model_colors), breaks = c("Recorded", names(model_colors))) +
-      scale_fill_manual(name = "95% CI", values = model_colors, breaks = names(model_colors)) +
+      scale_fill_manual(name = interval_label, values = model_colors, breaks = names(model_colors)) +
       scale_linetype_manual(
         name = "Series",
         values = c(
