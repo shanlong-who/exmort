@@ -45,6 +45,7 @@ source_module <- function(path, force = FALSE) {
 # Note: date_midpoint() lives in modules/plot_prediction_module_new.R.
 
 source_module("modules/utils.R")
+source_module("modules/cause_data.R")
 source_module("modules/ACM_hist_new.R")
 source_module("modules/ACM_nb.R")
 source_module("modules/ACM_quasipoisson.R")
@@ -223,40 +224,13 @@ server <- function(input, output, session) {
   observe({
     if (!is.null(rv$merged_data)) {
       message("Merged data is ready.")
-      rv_data <- rv$merged_data
-      rv_data$CAUSE <- "Total"
-      rv_data$AREA <- "Total"
-      rv_data$COUNTRY <- "AAA"
-      rv_data$ISO3 <- "ISO"
-      rv_data$SE_IDENTIFIER <- "END"
-
-      # 1. Extract unique combinations of YEAR and PERIOD.
-      #    merged_data_ext is the model INPUT (read only by model_run_module);
-      #    keeping PERIOD <= 53 here is harmless but the seasonal models
-      #    re-filter to <= 52 by design, so week 53 does not enter the excess
-      #    estimates. Week 53 IS retained in the observed data (merged_data),
-      #    so it appears in the data-health totals and data preview.
-      #    get_week_start_date clamps any out-of-range week safely.
-      unique_combinations <- rv_data %>%
-        filter(PERIOD <= 53) %>%
-        select(YEAR, PERIOD) %>%
-        distinct()
-
-      # 2. Batch calculate DATE_TO_SPECIFY_WEEK (English month labels; the
-      #    helper restores the user's LC_TIME setting on exit).
-      unique_combinations$DATE_TO_SPECIFY_WEEK <- week_start_labels(
-        as.numeric(unique_combinations$YEAR),
-        as.numeric(unique_combinations$PERIOD)
-      )
-
-      # 3. Merge results back to original dataframe
-      rv_data <- rv_data %>%
-        filter(PERIOD <= 53) %>%
-        left_join(unique_combinations, by = c("YEAR", "PERIOD"))
+      rv_data <- prepare_mortality_model_input(rv$merged_data)
 
       rv$merged_data_ext <- rv_data
       # saveRDS(rv_data, "merged_data_ext.rds")
       # openxlsx::write.xlsx(rv_data, file = "merged_data_ext.xlsx", rowNames = FALSE)
+    } else {
+      rv$merged_data_ext <- NULL
     }
   })
 
