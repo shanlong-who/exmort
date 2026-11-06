@@ -70,6 +70,11 @@ library(exmort)
 run_app()
 ```
 
+In the development version, select **English** or **简体中文** from
+**Language / 语言** in the navigation bar. You can switch during an
+analysis and keep your data, choices and fitted results. Generated
+reports use English.
+
 The app opens in your default web browser and runs entirely on your
 machine — no data leaves your computer. Built-in example datasets for
 several countries are included; you can also upload your own workbook
