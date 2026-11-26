@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/shanlong-who/exmort/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/shanlong-who/exmort/blob/v0.1.2/DESCRIPTION)
 
 Ding S (2026). *exmort: All-Cause and Excess Mortality Calculator*. R
 package version 0.1.2, <https://github.com/shanlong-who/exmort>.
