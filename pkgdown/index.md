@@ -52,10 +52,11 @@ run_app()
 </section>
 
 <section class="em-cause" aria-labelledby="by-cause">
-<div><p class="em-kicker">GitHub development version</p>
+<div><p class="em-kicker">New in exmort 0.1.2</p>
 <h2 id="by-cause">Explore mortality by cause</h2></div>
 <div><p>Select a country and cause from the Australian or Philippine monthly workbooks. Compare historical-average and negative-binomial baselines. The Philippine example compares 2024 with 2019–2023, a period that includes pandemic years.</p>
-<div class="em-links"><a href="https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md">Read the cause-specific guide</a><a href="articles/exmort.html#install-and-launch">Install the development version</a></div></div>
+<p>The historical-average prediction interval included 55% of held-out monthly counts in Australia and 53% in the Philippines. Negative-binomial coverage was 97% and 87%, respectively. Check local performance before using intervals for alerts.</p>
+<div class="em-links"><a href="https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md">Read the cause-specific guide</a><a href="cause-model-audit.csv">Download the model audit (CSV)</a></div></div>
 </section>
 
 <div class="em-footlinks"><a href="authors.html#citation">Cite exmort</a><a href="news/index.html">Release notes</a><a href="https://github.com/shanlong-who/exmort">Source on GitHub</a></div>

@@ -29,14 +29,15 @@ Baseline models included:
 
 Documentation: <https://shanlong-who.github.io/exmort/>
 
-The GitHub development version also supports selecting one country and one
+Version 0.1.2 also supports selecting one country and one
 cause of death from a monthly workbook. It includes official Australian
 (2015-May 2026) and Philippine (2019-2024) examples, a cause-specific template,
 and separate historical-average and negative-binomial baselines. The seven
 all-cause models and Best Fit remain available. See the
 [cause-specific guide](https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md) for use and data limitations.
 The Philippine example compares 2024 with pandemic-inclusive 2019-2023 history;
-it is not a pre-pandemic counterfactual. These additions are not yet on CRAN.
+it is not a pre-pandemic counterfactual. The guide reports the held-out
+prediction coverage for each country and model.
 
 ## Guides
 
@@ -71,7 +72,7 @@ library(exmort)
 run_app()
 ```
 
-In the development version, select **English** or **简体中文** from **Language / 语言** in the navigation bar. You can switch during an analysis and keep your data, choices and fitted results. Generated reports use English.
+In version 0.1.2, select **English** or **简体中文** from **Language / 语言** in the navigation bar. You can switch during an analysis and keep your data, choices and fitted results. Generated reports use English.
 
 The app opens in your default web browser and runs entirely on your machine —
 no data leaves your computer. Built-in example datasets for several countries

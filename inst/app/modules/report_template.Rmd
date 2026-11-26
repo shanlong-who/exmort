@@ -54,6 +54,14 @@ LABELS <- c(
 
 # Format a data frame as a page-width flextable: thousands separators on count
 # columns, one decimal + % on P-score, friendly headers. Works for HTML/PDF/docx.
+format_cause_count <- function(x) {
+  small <- abs(x) < 0.01 & x != 0 & is.finite(x)
+  text <- formatC(x, format = "f", digits = 2, big.mark = ",")
+  text[small] <- formatC(x[small], format = "g", digits = 3)
+  text[is.na(x)] <- ""
+  trimws(text)
+}
+
 ft <- function(df, caption = NULL, drop = character(0)) {
   if (is.null(df) || nrow(df) == 0) {
     return(flextable(data.frame(Note = "No data for this selection.")))
@@ -65,6 +73,13 @@ ft <- function(df, caption = NULL, drop = character(0)) {
       "EXCESS_LOWER", "EXCESS_UPPER"), names(df))
   ftab <- flextable(df)
   for (nc in count_cols) ftab <- colformat_double(ftab, j = nc, digits = 0, big.mark = ",")
+  if (isTRUE(params$cause_mode)) {
+    estimates <- setdiff(count_cols, c("NO_DEATHS", "TOTAL_DEATHS"))
+    if (length(estimates)) {
+      formatters <- setNames(rep(list(format_cause_count), length(estimates)), estimates)
+      ftab <- do.call(flextable::set_formatter, c(list(x = ftab), formatters))
+    }
+  }
   if ("P_SCORE" %in% names(df)) ftab <- colformat_double(ftab, j = "P_SCORE", digits = 1, suffix = "%")
   hl <- LABELS[intersect(names(df), names(LABELS))]
   if (length(hl)) ftab <- set_header_labels(ftab, values = as.list(hl))
@@ -88,6 +103,7 @@ cat(if (isTRUE(params$cause_mode)) "# Cause-Specific Excess Mortality Report\n\n
 cat(sprintf("**Selected series:** %s\n\n", params$data_description))
 if (nzchar(params$source_note)) cat(sprintf("**Source and interpretation:** %s\n\n", params$source_note))
 if (isTRUE(params$cause_mode)) cat("Death and excess-death bounds are approximate 95% counterfactual count prediction intervals. P-score bounds reflect uncertainty in the expected mean. These estimates do not establish attribution to an event.\n\n")
+if (isTRUE(params$cause_mode) && "Historical Average" %in% params$selected_models) cat("Historical Average is a descriptive seasonal baseline. Its prediction intervals missed many observed months in the example backtest. Check predictive performance before interpreting an interval as a surveillance threshold.\n\n")
 cat(sprintf("**WHO Western Pacific Region** &nbsp;|&nbsp; Generated %s\n\n",
             if (nzchar(params$generated_on)) params$generated_on else format(Sys.Date())))
 cat(sprintf(
@@ -129,7 +145,7 @@ if (nrow(os) > 0 && all(c("TOTAL_EXCESS", "TOTAL_EXPECTED") %in% names(os))) {
            "**%s**, corresponding to an overall **P-score of %s**",
            if (!is.na(pick_model)) ", based on the **%s** model" else "%s",
            ".\n\n"),
-    comma(tot_exc),
+    if (isTRUE(params$cause_mode)) format_cause_count(tot_exc) else comma(tot_exc),
     if (is.na(ps)) "n/a" else sprintf("%.1f%%", ps),
     if (!is.na(pick_model)) pick_model else ""))
 } else {

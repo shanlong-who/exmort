@@ -79,6 +79,28 @@ test_that("historical averages and NB retain cause identity and coherent totals"
   }
 })
 
+test_that("event outcomes do not enter cause baselines and split event totals reconcile", {
+  data <- cause_test_data()
+  later <- data$YEAR >= 2023
+  data$event_index[later] <- "2"
+  data$event_name[later] <- "Second period"
+  updated <- data
+  updated$NO_DEATHS[later] <- updated$NO_DEATHS[later] + 200
+  for (model in c("hist", "nb")) {
+    original <- run_cause_model(data, model)
+    revised <- run_cause_model(updated, model)
+    expect_equal(original[c("EXP_DEATHS", "LOWER_LIMIT", "UPPER_LIMIT")],
+                 revised[c("EXP_DEATHS", "LOWER_LIMIT", "UPPER_LIMIT")], ignore_attr = TRUE)
+    events <- attr(revised, "summary_by_event")
+    for (i in seq_len(nrow(events))) {
+      selected <- revised$event_index == events$event_index[i]
+      expect_equal(events$TOTAL_EXPECTED[i], sum(revised$EXP_DEATHS[selected]))
+      expect_equal(events$TOTAL_DEATHS[i], sum(updated$NO_DEATHS[selected]))
+    }
+    expect_equal(sum(events$TOTAL_EXCESS), attr(revised, "overall_summary")$TOTAL_EXCESS)
+  }
+})
+
 test_that("missing counts, zero baselines and short baselines cannot produce false success", {
   data <- cause_test_data()
   expect_error(run_cause_model(transform(data, NO_DEATHS = NA_real_), "nb"), "missing counts")
@@ -219,7 +241,12 @@ test_that("the production cause pipeline retains fractional expectations and eli
     fitted <- model_results()
     expect_named(fitted, c("hist", "nb"))
     expect_true(is.finite(rv$model_aic$AIC[rv$model_aic$Model == "Negative Binomial Regression"]))
-    expect_identical(rv$best_model, "Negative Binomial Regression")
+    expect_identical(rv$best_model, NA_character_)
+    expect_false(any(rv$model_aic$Best))
+    expect_equal(rv$total_prediction$P_SCORE,
+                 100 * rv$total_prediction$EXCESS_DEATHS / rv$total_prediction$EXP_DEATHS)
+    expect_equal(rv$overall_summary$P_SCORE,
+                 100 * (rv$overall_summary$TOTAL_DEATHS / rv$overall_summary$TOTAL_EXPECTED - 1))
     expect_equal(nrow(rv$total_prediction), nrow(data) * 2)
     expect_true(all(rv$total_prediction$P_LOWER <= rv$total_prediction$P_UPPER))
   })
@@ -290,12 +317,16 @@ test_that("the packaged HTML report renders cause identity and interpretation", 
       include_summary = TRUE, include_tables = TRUE, include_plots = TRUE)
     params <- assemble_report_params()
     expect_true(all(file.exists(unlist(params[c("fig_acm", "fig_excess", "fig_pscore")]))))
+    # Check the actual report cell for a small, positive model estimate.
+    params$total_predictions$EXP_DEATHS[1] <- 0.000321
     rendered <- render_report(html_format(), params)
     html <- paste(readLines(rendered, warn = FALSE), collapse = "\n")
     html <- gsub("[[:space:]]+", " ", html)
     expect_match(html, "Ischaemic heart diseases")
     expect_match(html, "Doctor-certified deaths only.", fixed = TRUE)
     expect_match(html, "expected mean", fixed = TRUE)
+    expect_match(html, "descriptive seasonal baseline", fixed = TRUE)
+    expect_match(html, ">0.000321<", fixed = TRUE)
     expect_match(html, "data:image/png;base64,", fixed = TRUE)
   })
 })

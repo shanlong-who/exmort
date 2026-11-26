@@ -237,7 +237,12 @@ model_run_module_server <- function(id, rv) {
 
       output$analysis_context <- renderText(em_context(rv))
       output$cause_model_note <- renderUI({
-        if (is_cause_series(rv$merged_data)) helpText(em_label("Monthly cause-specific analysis uses Historical Average and Negative Binomial. Other models remain available for all-cause data. Death/excess bounds are prediction intervals; P-score bounds reflect expected-mean uncertainty."))
+        if (is_cause_series(rv$merged_data)) {
+          tagList(
+            helpText(em_label("Monthly cause-specific analysis uses Historical Average and Negative Binomial. Other models remain available for all-cause data. Death/excess bounds are prediction intervals; P-score bounds reflect expected-mean uncertainty.")),
+            helpText(em_label("Historical Average is a descriptive seasonal baseline. Its prediction intervals missed many observed months in the example backtest. Check predictive performance before interpreting an interval as a surveillance threshold."))
+          )
+        }
       })
       observe({
         cause_mode <- is_cause_series(rv$merged_data)
@@ -523,11 +528,11 @@ model_run_module_server <- function(id, rv) {
             combined_results <- combined_results %>%
               mutate(across(all_of(existing_integer_cols), as.numeric))
 
-            if ("P_SCORE" %in% names(combined_results)) {
+            if ("P_SCORE" %in% names(combined_results) && !is_cause_series(data)) {
               combined_results <- combined_results %>% mutate(P_SCORE = round(as.numeric(P_SCORE), 2))
               if ("P_LOWER" %in% names(combined_results)) combined_results <- combined_results %>% mutate(P_LOWER = round(as.numeric(P_LOWER), 2))
               if ("P_UPPER" %in% names(combined_results)) combined_results <- combined_results %>% mutate(P_UPPER = round(as.numeric(P_UPPER), 2))
-            } else if (all(c("EXCESS_DEATHS", "EXP_DEATHS") %in% names(combined_results))) {
+            } else if (!"P_SCORE" %in% names(combined_results) && all(c("EXCESS_DEATHS", "EXP_DEATHS") %in% names(combined_results))) {
               combined_results <- combined_results %>%
                 mutate(P_SCORE = round(100 * EXCESS_DEATHS / EXP_DEATHS, 2))
               if (all(c("LOWER_LIMIT", "UPPER_LIMIT", "NO_DEATHS") %in% names(combined_results))) {
@@ -616,7 +621,7 @@ model_run_module_server <- function(id, rv) {
               combined_summary <- combined_summary %>%
                 mutate(across(all_of(existing_integer_cols_sum), ~ round(as.numeric(.))))
             }
-            if (length(existing_decimal_cols_sum) > 0) {
+            if (!is_cause_series(data) && length(existing_decimal_cols_sum) > 0) {
               combined_summary <- combined_summary %>%
                 mutate(across(all_of(existing_decimal_cols_sum), ~ round(as.numeric(.), 2)))
             }
@@ -651,7 +656,7 @@ model_run_module_server <- function(id, rv) {
               combined_overall <- combined_overall %>%
                 mutate(across(all_of(intersect(names(combined_overall), existing_integer_cols_sum)), ~ round(as.numeric(.))))
             }
-            if (length(existing_decimal_cols_sum) > 0) {
+            if (!is_cause_series(data) && length(existing_decimal_cols_sum) > 0) {
               combined_overall <- combined_overall %>%
                 mutate(across(all_of(intersect(names(combined_overall), existing_decimal_cols_sum)), ~ round(as.numeric(.), 2)))
             }
@@ -679,7 +684,8 @@ model_run_module_server <- function(id, rv) {
             # Lowest AIC wins; rows with NA (e.g. Historical Average) are
             # not eligible for "Best".
             valid_aic <- aic_df$AIC[is.finite(aic_df$AIC)]
-            best_label <- if (length(valid_aic) > 0) {
+            minimum_models <- if (is_cause_series(data)) 2L else 1L
+            best_label <- if (length(valid_aic) >= minimum_models) {
               aic_df$Model[which(aic_df$AIC == min(valid_aic, na.rm = TRUE))[1]]
             } else NA_character_
             aic_df$Best <- aic_df$Model == best_label & !is.na(best_label)

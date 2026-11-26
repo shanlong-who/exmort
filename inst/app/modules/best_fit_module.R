@@ -65,7 +65,9 @@ best_fit_module_server <- function(id, rv) {
 
     output$best_banner <- renderUI({
       req(rv$model_aic)
-      if (is.na(rv$best_model) || is.null(rv$best_model)) {
+      if (sum(is.finite(rv$model_aic$AIC)) == 1L && isTRUE(is.na(rv$best_model))) {
+        div(class = "alert alert-info", em_label("Only one model has a finite AIC. A comparison requires at least two."))
+      } else if (is.null(rv$best_model) || is.na(rv$best_model)) {
         div(
           class = "alert alert-warning",
           strong(em_label("No best fit available.")),

@@ -1,4 +1,6 @@
 {
+  "Only one model has a finite AIC. A comparison requires at least two.": "只有一个模型给出了有限的 AIC 值。至少需要两个可比较的模型才能排名。",
+  "Historical Average is a descriptive seasonal baseline. Its prediction intervals missed many observed months in the example backtest. Check predictive performance before interpreting an interval as a surveillance threshold.": "历史平均法用于描述季节性基线。在示例回测中，许多月份的实际死亡人数超出了预测区间。用区间设置监测阈值前，请先检验模型在本地数据上的预测表现。",
   "WPRO All Cause Mortality and Excess Mortality Calculator (2025)": "西太平洋区域全因死亡与超额死亡计算器（2025）",
   "Toggle navigation": "展开或收起导航栏",
   "Data": "数据",

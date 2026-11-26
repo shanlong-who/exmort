@@ -1,0 +1,513 @@
+"country","cause","model","evaluation","status","detail","n_months","inside_interval","observed","expected"
+"Australia","All causes (doctor certified)","hist","workbook calendar","fitted","",77,1,1013580,901767.800000014
+"Australia","All causes (doctor certified)","hist","holdout 2019","fitted","",12,6,144366,140298.750000004
+"Australia","All causes (doctor certified)","nb","workbook calendar","fitted","",77,39,1013580,958765.496509675
+"Australia","All causes (doctor certified)","nb","holdout 2019","fitted","",12,12,144366,143470.202559617
+"Australia","Cancer","hist","workbook calendar","fitted","",77,4,324555,296413
+"Australia","Cancer","hist","holdout 2019","fitted","",12,4,47852,45821.2500000002
+"Australia","Cancer","nb","workbook calendar","fitted","",77,74,324555,325698.307521033
+"Australia","Cancer","nb","holdout 2019","fitted","",12,11,47852,47530.8105155114
+"Australia","Cerebrovascular disease","hist","workbook calendar","fitted","",77,36,57238,62709.0000000571
+"Australia","Cerebrovascular disease","hist","holdout 2019","fitted","",12,7,9208,9949.00000000047
+"Australia","Cerebrovascular disease","nb","workbook calendar","fitted","",77,66,57238,54618.9937088245
+"Australia","Cerebrovascular disease","nb","holdout 2019","fitted","",12,11,9208,9499.41879193321
+"Australia","Chronic lower respiratory conditions","hist","workbook calendar","fitted","",77,31,50122,49094.4000003665
+"Australia","Chronic lower respiratory conditions","hist","holdout 2019","fitted","",12,10,7870,7687.00000007116
+"Australia","Chronic lower respiratory conditions","nb","workbook calendar","fitted","",77,65,50122,52190.2368145479
+"Australia","Chronic lower respiratory conditions","nb","holdout 2019","fitted","",12,12,7870,7887.76642946492
+"Australia","COVID-19","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Australia","COVID-19","hist","holdout 2019","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Australia","COVID-19","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Australia","COVID-19","nb","holdout 2019","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Australia","Dementia","hist","workbook calendar","fitted","",77,7,110447,90459.4000011085
+"Australia","Dementia","hist","holdout 2019","fitted","",12,2,15393,13863.5000001091
+"Australia","Dementia","nb","workbook calendar","fitted","",77,56,110447,117078.56601738
+"Australia","Dementia","nb","holdout 2019","fitted","",12,12,15393,15572.4760889181
+"Australia","Diabetes","hist","workbook calendar","fitted","",77,13,33928,28808.8000001464
+"Australia","Diabetes","hist","holdout 2019","fitted","",12,11,4570,4496.00000003652
+"Australia","Diabetes","nb","workbook calendar","fitted","",77,54,33928,30336.2290836632
+"Australia","Diabetes","nb","holdout 2019","fitted","",12,12,4570,4615.56040598333
+"Australia","Influenza and pneumonia","hist","workbook calendar","fitted","",77,26,18029,19902.8000000192
+"Australia","Influenza and pneumonia","hist","holdout 2019","fitted","",12,7,3563,3062.00000001227
+"Australia","Influenza and pneumonia","nb","workbook calendar","fitted","",77,58,18029,25895.7888349856
+"Australia","Influenza and pneumonia","nb","holdout 2019","fitted","",12,12,3563,3285.54330591411
+"Australia","Ischaemic heart diseases","hist","workbook calendar","fitted","",77,25,85602,96808.6000004314
+"Australia","Ischaemic heart diseases","hist","holdout 2019","fitted","",12,3,14108,15420.7500000412
+"Australia","Ischaemic heart diseases","nb","workbook calendar","fitted","",77,58,85602,80836.2509689367
+"Australia","Ischaemic heart diseases","nb","holdout 2019","fitted","",12,12,14108,14342.2262462301
+"Australia","Other cardiac conditions","hist","workbook calendar","fitted","",77,18,63850,56534.0000000191
+"Australia","Other cardiac conditions","hist","holdout 2019","fitted","",12,9,8935,8862.75000000043
+"Australia","Other cardiac conditions","nb","workbook calendar","fitted","",77,39,63850,58070.1242375625
+"Australia","Other cardiac conditions","nb","holdout 2019","fitted","",12,10,8935,8970.73820751816
+"Australia","Pneumonia","hist","workbook calendar","fitted","",77,43,15033,16153.0000000001
+"Australia","Pneumonia","hist","holdout 2019","fitted","",12,10,2555,2549.5
+"Australia","Pneumonia","nb","workbook calendar","fitted","",77,60,15033,17105.1714282784
+"Australia","Pneumonia","nb","holdout 2019","fitted","",12,12,2555,2673.5674950838
+"Australia","Respiratory diseases","hist","workbook calendar","fitted","",77,23,92497,89605.0000000004
+"Australia","Respiratory diseases","hist","holdout 2019","fitted","",12,4,14823,13950.75
+"Australia","Respiratory diseases","nb","workbook calendar","fitted","",77,65,92497,101937.268839947
+"Australia","Respiratory diseases","nb","holdout 2019","fitted","",12,12,14823,14606.818298937
+"Philippines","1-001 Certain infectious and parasitic diseases","hist","workbook calendar","fitted","",12,1,43489,38400.6000000001
+"Philippines","1-001 Certain infectious and parasitic diseases","hist","holdout 2023","fitted","",12,0,42244,37439.7499999999
+"Philippines","1-001 Certain infectious and parasitic diseases","nb","workbook calendar","fitted","",12,12,43489,39502.39770453
+"Philippines","1-001 Certain infectious and parasitic diseases","nb","holdout 2023","fitted","",12,11,42244,34656.1852103325
+"Philippines","1-002 Cholera","hist","workbook calendar","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-002 Cholera","hist","holdout 2023","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-002 Cholera","nb","workbook calendar","fitted","",12,12,0,22.5687917288062
+"Philippines","1-002 Cholera","nb","holdout 2023","fitted","",12,12,8,32.7734033715921
+"Philippines","1-003 Diarrhoea and gastroenteritis of presumed infectious origin","hist","workbook calendar","fitted","",12,6,3953,3754.80000000005
+"Philippines","1-003 Diarrhoea and gastroenteritis of presumed infectious origin","hist","holdout 2023","fitted","",12,3,4282,3623.0000000003
+"Philippines","1-003 Diarrhoea and gastroenteritis of presumed infectious origin","nb","workbook calendar","fitted","",12,9,3953,4994.89984495418
+"Philippines","1-003 Diarrhoea and gastroenteritis of presumed infectious origin","nb","holdout 2023","fitted","",12,12,4282,4845.58789142509
+"Philippines","1-004 Other intestinal infectious diseases","hist","workbook calendar","fitted","",12,10,538,452.600000000581
+"Philippines","1-004 Other intestinal infectious diseases","hist","holdout 2023","fitted","",12,9,543,430.000000000724
+"Philippines","1-004 Other intestinal infectious diseases","nb","workbook calendar","fitted","",12,12,538,536.474399976922
+"Philippines","1-004 Other intestinal infectious diseases","nb","holdout 2023","fitted","",12,11,543,446.306012292687
+"Philippines","1-005 Respiratory tuberculosis","hist","workbook calendar","fitted","",12,0,23364,20344.1999999999
+"Philippines","1-005 Respiratory tuberculosis","hist","holdout 2023","fitted","",12,1,22661,19764.9999999999
+"Philippines","1-005 Respiratory tuberculosis","nb","workbook calendar","fitted","",12,12,23364,20647.4173865798
+"Philippines","1-005 Respiratory tuberculosis","nb","holdout 2023","fitted","",12,2,22661,17527.8810585469
+"Philippines","1-006 Other tuberculosis","hist","workbook calendar","fitted","",12,6,1548,1263.4
+"Philippines","1-006 Other tuberculosis","hist","holdout 2023","fitted","",12,6,1470,1211.75
+"Philippines","1-006 Other tuberculosis","nb","workbook calendar","fitted","",12,12,1548,1459.85018522685
+"Philippines","1-006 Other tuberculosis","nb","holdout 2023","fitted","",12,11,1470,1265.99220123018
+"Philippines","1-007 Plague","hist","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-007 Plague","hist","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-007 Plague","nb","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-007 Plague","nb","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-008 Tetanus","hist","workbook calendar","fitted","",12,11,581,567.800000000001
+"Philippines","1-008 Tetanus","hist","holdout 2023","fitted","",12,10,614,556.250000000003
+"Philippines","1-008 Tetanus","nb","workbook calendar","fitted","",12,12,581,674.997313866324
+"Philippines","1-008 Tetanus","nb","holdout 2023","fitted","",12,12,614,669.507755124627
+"Philippines","1-009 Diphtheria","hist","workbook calendar","fitted","",12,12,33,21.0000000000476
+"Philippines","1-009 Diphtheria","hist","holdout 2023","fitted","",12,12,18,21.7500000000064
+"Philippines","1-009 Diphtheria","nb","workbook calendar","fitted","",12,11,33,16.6793667446027
+"Philippines","1-009 Diphtheria","nb","holdout 2023","fitted","",12,11,18,17.8135451348035
+"Philippines","1-010 Whooping cough","hist","workbook calendar","fitted","",12,6,81,8.60000000227616
+"Philippines","1-010 Whooping cough","hist","holdout 2023","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-010 Whooping cough","nb","workbook calendar","fitted","",12,8,81,13.3705635193103
+"Philippines","1-010 Whooping cough","nb","holdout 2023","fitted","",12,4,29,0.0584461099988237
+"Philippines","1-011 Meningococcal infection","hist","workbook calendar","fitted","",12,12,64,78.4
+"Philippines","1-011 Meningococcal infection","hist","holdout 2023","fitted","",12,9,57,83.7500000420197
+"Philippines","1-011 Meningococcal infection","nb","workbook calendar","fitted","",12,12,64,56.4690177020808
+"Philippines","1-011 Meningococcal infection","nb","holdout 2023","fitted","",12,12,57,69.8933604123956
+"Philippines","1-012 Sepsis","hist","workbook calendar","fitted","",12,11,5600,5492
+"Philippines","1-012 Sepsis","hist","holdout 2023","fitted","",12,7,5865,5398.75000000001
+"Philippines","1-012 Sepsis","nb","workbook calendar","fitted","",12,12,5600,5487.36712171463
+"Philippines","1-012 Sepsis","nb","holdout 2023","fitted","",12,10,5865,4936.27900037455
+"Philippines","1-013 Infections with a predominantly sexual mode of transmission","hist","workbook calendar","fitted","",12,12,20,13.8000000052376
+"Philippines","1-013 Infections with a predominantly sexual mode of transmission","hist","holdout 2023","fitted","",12,12,16,13.25
+"Philippines","1-013 Infections with a predominantly sexual mode of transmission","nb","workbook calendar","fitted","",12,12,20,17.1114785570404
+"Philippines","1-013 Infections with a predominantly sexual mode of transmission","nb","holdout 2023","fitted","",12,12,16,15.6617568076023
+"Philippines","1-014 Acute poliomyelitis","hist","workbook calendar","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-014 Acute poliomyelitis","hist","holdout 2023","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-014 Acute poliomyelitis","nb","workbook calendar","fitted","",12,11,3,0.0566232997262934
+"Philippines","1-014 Acute poliomyelitis","nb","holdout 2023","fitted","",12,12,0,0.191758860459759
+"Philippines","1-015 Rabies","hist","workbook calendar","fitted","",12,12,341,327.400000000002
+"Philippines","1-015 Rabies","hist","holdout 2023","fitted","",12,11,356,320.250000000009
+"Philippines","1-015 Rabies","nb","workbook calendar","fitted","",12,10,341,399.372163957215
+"Philippines","1-015 Rabies","nb","holdout 2023","fitted","",12,12,356,400.221822775858
+"Philippines","1-016 Yellow fever","hist","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-016 Yellow fever","hist","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-016 Yellow fever","nb","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-016 Yellow fever","nb","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-017 Other arthropod-borne viral fevers and viral haemorrhagic fevers","hist","workbook calendar","fitted","",12,4,2074,1523.4
+"Philippines","1-017 Other arthropod-borne viral fevers and viral haemorrhagic fevers","hist","holdout 2023","fitted","",12,6,1167,1612.50000000001
+"Philippines","1-017 Other arthropod-borne viral fevers and viral haemorrhagic fevers","nb","workbook calendar","fitted","",12,6,2074,918.827450614499
+"Philippines","1-017 Other arthropod-borne viral fevers and viral haemorrhagic fevers","nb","holdout 2023","fitted","",12,12,1167,957.675785859972
+"Philippines","1-018 Measles","hist","workbook calendar","fitted","",12,7,11,177.000000202805
+"Philippines","1-018 Measles","hist","holdout 2023","fitted","",12,5,10,218.750000006427
+"Philippines","1-018 Measles","nb","workbook calendar","fitted","",12,11,11,1.66742030026679
+"Philippines","1-018 Measles","nb","holdout 2023","fitted","",12,10,10,1.40259660173557
+"Philippines","1-019 Viral hepatitis","hist","workbook calendar","fitted","",12,2,1460,1057.00000000005
+"Philippines","1-019 Viral hepatitis","hist","holdout 2023","fitted","",12,4,1310,993.750000000162
+"Philippines","1-019 Viral hepatitis","nb","workbook calendar","fitted","",12,12,1460,1263.71307745938
+"Philippines","1-019 Viral hepatitis","nb","holdout 2023","fitted","",12,11,1310,1009.56079985143
+"Philippines","1-020 Human immunodeficiency virus [HIV] disease","hist","workbook calendar","fitted","",12,7,667,828.200000000032
+"Philippines","1-020 Human immunodeficiency virus [HIV] disease","hist","holdout 2023","fitted","",12,10,736,851.250000000127
+"Philippines","1-020 Human immunodeficiency virus [HIV] disease","nb","workbook calendar","fitted","",12,12,667,645.952459168627
+"Philippines","1-020 Human immunodeficiency virus [HIV] disease","nb","holdout 2023","fitted","",12,12,736,640.316245641311
+"Philippines","1-021 Malaria","hist","workbook calendar","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-021 Malaria","hist","holdout 2023","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-021 Malaria","nb","workbook calendar","fitted","",12,12,8,4.15420653745321
+"Philippines","1-021 Malaria","nb","holdout 2023","fitted","",12,11,9,1.59421128837958
+"Philippines","1-022 Leishmaniasis","hist","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-022 Leishmaniasis","hist","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-022 Leishmaniasis","nb","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-022 Leishmaniasis","nb","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-023 Trypanosomiasis","hist","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-023 Trypanosomiasis","hist","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-023 Trypanosomiasis","nb","workbook calendar","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-023 Trypanosomiasis","nb","holdout 2023","stopped","No deaths were recorded in the baseline for this cause. A baseline and P-score cannot be estimated reliably.",,,,
+"Philippines","1-024 Schistosomiasis","hist","workbook calendar","fitted","",12,12,390,370
+"Philippines","1-024 Schistosomiasis","hist","holdout 2023","fitted","",12,12,380,367.500000000002
+"Philippines","1-024 Schistosomiasis","nb","workbook calendar","fitted","",12,12,390,396.988231228696
+"Philippines","1-024 Schistosomiasis","nb","holdout 2023","fitted","",12,12,380,397.615850844075
+"Philippines","1-025 Remainder of certain infectious and parasitic diseases","hist","workbook calendar","fitted","",12,4,2752,2107.4000000002
+"Philippines","1-025 Remainder of certain infectious and parasitic diseases","hist","holdout 2023","fitted","",12,3,2713,1956.00000000001
+"Philippines","1-025 Remainder of certain infectious and parasitic diseases","nb","workbook calendar","fitted","",12,12,2752,2761.81109759313
+"Philippines","1-025 Remainder of certain infectious and parasitic diseases","nb","holdout 2023","fitted","",12,11,2713,2238.63414581685
+"Philippines","1-026 Neoplasms","hist","workbook calendar","fitted","",12,0,77504,69603.0000000205
+"Philippines","1-026 Neoplasms","hist","holdout 2023","fitted","",12,1,74042,68493.2500000033
+"Philippines","1-026 Neoplasms","nb","workbook calendar","fitted","",12,12,77504,74002.9066527685
+"Philippines","1-026 Neoplasms","nb","holdout 2023","fitted","",12,9,74042,69838.740617794
+"Philippines","1-027 Malignant neoplasm of lip oral cavity and pharynx","hist","workbook calendar","fitted","",12,9,2847,2605
+"Philippines","1-027 Malignant neoplasm of lip oral cavity and pharynx","hist","holdout 2023","fitted","",12,9,2766,2564.75
+"Philippines","1-027 Malignant neoplasm of lip oral cavity and pharynx","nb","workbook calendar","fitted","",12,11,2847,2704.27777719047
+"Philippines","1-027 Malignant neoplasm of lip oral cavity and pharynx","nb","holdout 2023","fitted","",12,10,2766,2515.58375512039
+"Philippines","1-028 Malignant neoplasm of oesophagus","hist","workbook calendar","fitted","",12,10,610,512.000000000002
+"Philippines","1-028 Malignant neoplasm of oesophagus","hist","holdout 2023","fitted","",12,11,542,504.5
+"Philippines","1-028 Malignant neoplasm of oesophagus","nb","workbook calendar","fitted","",12,11,610,519.76001482793
+"Philippines","1-028 Malignant neoplasm of oesophagus","nb","holdout 2023","fitted","",12,12,542,478.348246634179
+"Philippines","1-029 Malignant neoplasm of stomach","hist","workbook calendar","fitted","",12,10,1800,1585.4
+"Philippines","1-029 Malignant neoplasm of stomach","hist","holdout 2023","fitted","",12,11,1681,1561.5
+"Philippines","1-029 Malignant neoplasm of stomach","nb","workbook calendar","fitted","",12,12,1800,1661.65813812823
+"Philippines","1-029 Malignant neoplasm of stomach","nb","holdout 2023","fitted","",12,12,1681,1558.85422857243
+"Philippines","1-030 Malignant neoplasm of colon rectum and anus","hist","workbook calendar","fitted","",12,2,8765,7841.20000002377
+"Philippines","1-030 Malignant neoplasm of colon rectum and anus","hist","holdout 2023","fitted","",12,6,8421,7696.250000013
+"Philippines","1-030 Malignant neoplasm of colon rectum and anus","nb","workbook calendar","fitted","",12,12,8765,8431.64499003865
+"Philippines","1-030 Malignant neoplasm of colon rectum and anus","nb","holdout 2023","fitted","",12,11,8421,7901.62578805009
+"Philippines","1-031 Malignant neoplasm of liver and intrahepatic bile ducts","hist","workbook calendar","fitted","",12,10,6481,6157.40000001097
+"Philippines","1-031 Malignant neoplasm of liver and intrahepatic bile ducts","hist","holdout 2023","fitted","",12,9,6229,6139.50000000728
+"Philippines","1-031 Malignant neoplasm of liver and intrahepatic bile ducts","nb","workbook calendar","fitted","",12,11,6481,6092.51485900354
+"Philippines","1-031 Malignant neoplasm of liver and intrahepatic bile ducts","nb","holdout 2023","fitted","",12,11,6229,5913.376474207
+"Philippines","1-032 Malignant neoplasm of pancreas","hist","workbook calendar","fitted","",12,8,2385,2090.40000000001
+"Philippines","1-032 Malignant neoplasm of pancreas","hist","holdout 2023","fitted","",12,9,2240,2053
+"Philippines","1-032 Malignant neoplasm of pancreas","nb","workbook calendar","fitted","",12,12,2385,2299.1941955626
+"Philippines","1-032 Malignant neoplasm of pancreas","nb","holdout 2023","fitted","",12,12,2240,2194.82383497488
+"Philippines","1-033 Malignant neoplasm of larynx","hist","workbook calendar","fitted","",12,12,476,450.200000000001
+"Philippines","1-033 Malignant neoplasm of larynx","hist","holdout 2023","fitted","",12,11,426,456.25
+"Philippines","1-033 Malignant neoplasm of larynx","nb","workbook calendar","fitted","",12,7,476,360.174775052799
+"Philippines","1-033 Malignant neoplasm of larynx","nb","holdout 2023","fitted","",12,9,426,335.366613781989
+"Philippines","1-034 Malignant neoplasm of trachea bronchus and lung","hist","workbook calendar","fitted","",12,3,9018,8033.39999999999
+"Philippines","1-034 Malignant neoplasm of trachea bronchus and lung","hist","holdout 2023","fitted","",12,8,8518,7912.24999999996
+"Philippines","1-034 Malignant neoplasm of trachea bronchus and lung","nb","workbook calendar","fitted","",12,11,9018,7764.79524727804
+"Philippines","1-034 Malignant neoplasm of trachea bronchus and lung","nb","holdout 2023","fitted","",12,3,8518,6881.59869771384
+"Philippines","1-035 Malignant melanoma of skin","hist","workbook calendar","fitted","",12,12,213,187.200000000001
+"Philippines","1-035 Malignant melanoma of skin","hist","holdout 2023","fitted","",12,12,200,184.000000000002
+"Philippines","1-035 Malignant melanoma of skin","nb","workbook calendar","fitted","",12,11,213,200.768432968148
+"Philippines","1-035 Malignant melanoma of skin","nb","holdout 2023","fitted","",12,12,200,189.05773830241
+"Philippines","1-036 Malignant neoplasm of breast","hist","workbook calendar","fitted","",12,3,11348,10313.4000001634
+"Philippines","1-036 Malignant neoplasm of breast","hist","holdout 2023","fitted","",12,3,11167,10100.0000000909
+"Philippines","1-036 Malignant neoplasm of breast","nb","workbook calendar","fitted","",12,12,11348,11727.2214044849
+"Philippines","1-036 Malignant neoplasm of breast","nb","holdout 2023","fitted","",12,12,11167,11265.4192881424
+"Philippines","1-037 Malignant neoplasm of cervix uteri","hist","workbook calendar","fitted","",12,4,3159,2614.80000000001
+"Philippines","1-037 Malignant neoplasm of cervix uteri","hist","holdout 2023","fitted","",12,7,2920,2538.50000000001
+"Philippines","1-037 Malignant neoplasm of cervix uteri","nb","workbook calendar","fitted","",12,11,3159,3010.44696181301
+"Philippines","1-037 Malignant neoplasm of cervix uteri","nb","holdout 2023","fitted","",12,12,2920,2778.97458416635
+"Philippines","1-038 Malignant neoplasm of other and unspecified parts of uterus","hist","workbook calendar","fitted","",12,8,1752,1459
+"Philippines","1-038 Malignant neoplasm of other and unspecified parts of uterus","hist","holdout 2023","fitted","",12,9,1680,1403.75
+"Philippines","1-038 Malignant neoplasm of other and unspecified parts of uterus","nb","workbook calendar","fitted","",12,11,1752,1757.24784216708
+"Philippines","1-038 Malignant neoplasm of other and unspecified parts of uterus","nb","holdout 2023","fitted","",12,12,1680,1593.16219559472
+"Philippines","1-039 Malignant neoplasm of ovary","hist","workbook calendar","fitted","",12,5,2585,2199.6
+"Philippines","1-039 Malignant neoplasm of ovary","hist","holdout 2023","fitted","",12,10,2392,2151.50000000001
+"Philippines","1-039 Malignant neoplasm of ovary","nb","workbook calendar","fitted","",12,12,2585,2533.41991059556
+"Philippines","1-039 Malignant neoplasm of ovary","nb","holdout 2023","fitted","",12,12,2392,2440.33447715873
+"Philippines","1-040 Malignant neoplasm of prostate","hist","workbook calendar","fitted","",12,9,3260,3503.00000000016
+"Philippines","1-040 Malignant neoplasm of prostate","hist","holdout 2023","fitted","",12,6,3192,3580.75000000019
+"Philippines","1-040 Malignant neoplasm of prostate","nb","workbook calendar","fitted","",12,12,3260,3421.1431464963
+"Philippines","1-040 Malignant neoplasm of prostate","nb","holdout 2023","fitted","",12,12,3192,3840.29268138543
+"Philippines","1-041 Malignant neoplasm of bladder","hist","workbook calendar","fitted","",12,10,482,403.6
+"Philippines","1-041 Malignant neoplasm of bladder","hist","holdout 2023","fitted","",12,12,415,400.749999999999
+"Philippines","1-041 Malignant neoplasm of bladder","nb","workbook calendar","fitted","",12,11,482,403.595701728225
+"Philippines","1-041 Malignant neoplasm of bladder","nb","holdout 2023","fitted","",12,12,415,384.751896566324
+"Philippines","1-042 Malignant neoplasm of meninges brain and other parts of central nervous system","hist","workbook calendar","fitted","",12,9,1666,1467.6
+"Philippines","1-042 Malignant neoplasm of meninges brain and other parts of central nervous system","hist","holdout 2023","fitted","",12,7,1670,1417
+"Philippines","1-042 Malignant neoplasm of meninges brain and other parts of central nervous system","nb","workbook calendar","fitted","",12,11,1666,1680.83813021095
+"Philippines","1-042 Malignant neoplasm of meninges brain and other parts of central nervous system","nb","holdout 2023","fitted","",12,7,1670,1495.74285164234
+"Philippines","1-043 Non-Hodgkin lymphoma","hist","workbook calendar","fitted","",12,11,1656,1550.6
+"Philippines","1-043 Non-Hodgkin lymphoma","hist","holdout 2023","fitted","",12,11,1618,1533.75
+"Philippines","1-043 Non-Hodgkin lymphoma","nb","workbook calendar","fitted","",12,11,1656,1608.02301187745
+"Philippines","1-043 Non-Hodgkin lymphoma","nb","holdout 2023","fitted","",12,12,1618,1536.31713630497
+"Philippines","1-044 Multiple myeloma and malignant plasma cell neoplasms","hist","workbook calendar","fitted","",12,10,389,335.000000000001
+"Philippines","1-044 Multiple myeloma and malignant plasma cell neoplasms","hist","holdout 2023","fitted","",12,10,357,329.5
+"Philippines","1-044 Multiple myeloma and malignant plasma cell neoplasms","nb","workbook calendar","fitted","",12,10,389,333.16552493902
+"Philippines","1-044 Multiple myeloma and malignant plasma cell neoplasms","nb","holdout 2023","fitted","",12,10,357,298.695322373025
+"Philippines","1-045 Leukaemia","hist","workbook calendar","fitted","",12,9,3161,2925.00000006557
+"Philippines","1-045 Leukaemia","hist","holdout 2023","fitted","",12,10,3088,2884.25000003255
+"Philippines","1-045 Leukaemia","nb","workbook calendar","fitted","",12,10,3161,2949.51617621249
+"Philippines","1-045 Leukaemia","nb","holdout 2023","fitted","",12,8,3088,2713.37424655752
+"Philippines","1-046 Remainder of malignant neoplasms","hist","workbook calendar","fitted","",12,2,10575,9269.60000002293
+"Philippines","1-046 Remainder of malignant neoplasms","hist","holdout 2023","fitted","",12,10,9515,9208.25000002955
+"Philippines","1-046 Remainder of malignant neoplasms","nb","workbook calendar","fitted","",12,12,10575,9796.67301702015
+"Philippines","1-046 Remainder of malignant neoplasms","nb","holdout 2023","fitted","",12,12,9515,9707.37593991175
+"Philippines","1-047 Remainder of neoplasms","hist","workbook calendar","fitted","",12,3,4876,4099.6
+"Philippines","1-047 Remainder of neoplasms","hist","holdout 2023","fitted","",12,1,5005,3873.25000005283
+"Philippines","1-047 Remainder of neoplasms","nb","workbook calendar","fitted","",12,12,4876,4950.46207659909
+"Philippines","1-047 Remainder of neoplasms","nb","holdout 2023","fitted","",12,2,5005,4083.71998762738
+"Philippines","1-048 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","hist","workbook calendar","fitted","",12,9,4622,4475.80000000001
+"Philippines","1-048 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","hist","holdout 2023","fitted","",12,10,4648,4432.75000000001
+"Philippines","1-048 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","nb","workbook calendar","fitted","",12,12,4622,4814.5860924482
+"Philippines","1-048 Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","nb","holdout 2023","fitted","",12,12,4648,4747.45480148481
+"Philippines","1-049 Anaemias","hist","workbook calendar","fitted","",12,10,3425,3501.2
+"Philippines","1-049 Anaemias","hist","holdout 2023","fitted","",12,11,3546,3490
+"Philippines","1-049 Anaemias","nb","workbook calendar","fitted","",12,10,3425,3705.72368507745
+"Philippines","1-049 Anaemias","nb","holdout 2023","fitted","",12,12,3546,3753.84934240091
+"Philippines","1-050 Remainder of diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","hist","workbook calendar","fitted","",12,8,1197,974.600000000004
+"Philippines","1-050 Remainder of diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","hist","holdout 2023","fitted","",12,11,1102,942.750000000004
+"Philippines","1-050 Remainder of diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","nb","workbook calendar","fitted","",12,12,1197,1109.86939177548
+"Philippines","1-050 Remainder of diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism","nb","holdout 2023","fitted","",12,12,1102,995.427715728311
+"Philippines","1-051 Endocrine nutritional and metabolic diseases","hist","workbook calendar","fitted","",12,6,58070,57951.6000000073
+"Philippines","1-051 Endocrine nutritional and metabolic diseases","hist","holdout 2023","fitted","",12,1,59008,57687.5000000198
+"Philippines","1-051 Endocrine nutritional and metabolic diseases","nb","workbook calendar","fitted","",12,12,58070,70386.8273471287
+"Philippines","1-051 Endocrine nutritional and metabolic diseases","nb","holdout 2023","fitted","",12,11,59008,76782.4545042861
+"Philippines","1-052 Diabetes mellitus","hist","workbook calendar","fitted","",12,6,43989,43364.0000000018
+"Philippines","1-052 Diabetes mellitus","hist","holdout 2023","fitted","",12,3,43964,43214.0000000052
+"Philippines","1-052 Diabetes mellitus","nb","workbook calendar","fitted","",12,12,43989,51194.3154910322
+"Philippines","1-052 Diabetes mellitus","nb","holdout 2023","fitted","",12,12,43964,55428.261726248
+"Philippines","1-053 Malnutrition","hist","workbook calendar","fitted","",12,8,4915,5133.2000000837
+"Philippines","1-053 Malnutrition","hist","holdout 2023","fitted","",12,6,5285,5095.25000020925
+"Philippines","1-053 Malnutrition","nb","workbook calendar","fitted","",12,12,4915,6585.10906301674
+"Philippines","1-053 Malnutrition","nb","holdout 2023","fitted","",12,12,5285,7246.08003933434
+"Philippines","1-054 Remainder of endocrine nutritional and metabolic diseases","hist","workbook calendar","fitted","",12,6,9166,9454.40000000822
+"Philippines","1-054 Remainder of endocrine nutritional and metabolic diseases","hist","holdout 2023","fitted","",12,5,9759,9378.25000002027
+"Philippines","1-054 Remainder of endocrine nutritional and metabolic diseases","nb","workbook calendar","fitted","",12,9,9166,12690.2950881551
+"Philippines","1-054 Remainder of endocrine nutritional and metabolic diseases","nb","holdout 2023","fitted","",12,7,9759,14146.7464453448
+"Philippines","1-055 Mental and behavioural disorders","hist","workbook calendar","fitted","",12,1,1098,1601.20000000465
+"Philippines","1-055 Mental and behavioural disorders","hist","holdout 2023","fitted","",12,9,1561,1611.25000001311
+"Philippines","1-055 Mental and behavioural disorders","nb","workbook calendar","fitted","",12,1,1098,2229.27366586168
+"Philippines","1-055 Mental and behavioural disorders","nb","holdout 2023","fitted","",12,2,1561,2712.44310959719
+"Philippines","1-056 Mental and behavioural disorders due to psychoactive substance use","hist","workbook calendar","fitted","",12,11,383,449.40000000004
+"Philippines","1-056 Mental and behavioural disorders due to psychoactive substance use","hist","holdout 2023","fitted","",12,8,487,440.000000000054
+"Philippines","1-056 Mental and behavioural disorders due to psychoactive substance use","nb","workbook calendar","fitted","",12,9,383,590.664356819022
+"Philippines","1-056 Mental and behavioural disorders due to psychoactive substance use","nb","holdout 2023","fitted","",12,10,487,617.257357179468
+"Philippines","1-057 Remainder of mental and behavioural disorders","hist","workbook calendar","fitted","",12,0,715,1151.80000003018
+"Philippines","1-057 Remainder of mental and behavioural disorders","hist","holdout 2023","fitted","",12,9,1074,1171.25000006713
+"Philippines","1-057 Remainder of mental and behavioural disorders","nb","workbook calendar","fitted","",12,1,715,1639.02946062013
+"Philippines","1-057 Remainder of mental and behavioural disorders","nb","holdout 2023","fitted","",12,0,1074,2118.98277717556
+"Philippines","1-058 Diseases of the nervous system","hist","workbook calendar","fitted","",12,3,11355,10027.6
+"Philippines","1-058 Diseases of the nervous system","hist","holdout 2023","fitted","",12,2,11477,9665.25
+"Philippines","1-058 Diseases of the nervous system","nb","workbook calendar","fitted","",12,12,11355,11354.0609060989
+"Philippines","1-058 Diseases of the nervous system","nb","holdout 2023","fitted","",12,12,11477,9987.7619615344
+"Philippines","1-059 Meningitis","hist","workbook calendar","fitted","",12,12,816,850.40000000001
+"Philippines","1-059 Meningitis","hist","holdout 2023","fitted","",12,11,890,840.500000000045
+"Philippines","1-059 Meningitis","nb","workbook calendar","fitted","",12,12,816,765.683781619885
+"Philippines","1-059 Meningitis","nb","holdout 2023","fitted","",12,10,890,661.352647338939
+"Philippines","1-060 Alzheimer disease","hist","workbook calendar","fitted","",12,11,985,1016.40000001967
+"Philippines","1-060 Alzheimer disease","hist","holdout 2023","fitted","",12,11,963,1029.75000002957
+"Philippines","1-060 Alzheimer disease","nb","workbook calendar","fitted","",12,12,985,1121.17889086891
+"Philippines","1-060 Alzheimer disease","nb","holdout 2023","fitted","",12,12,963,1283.90472028246
+"Philippines","1-061 Remainder of diseases of the nervous system","hist","workbook calendar","fitted","",12,3,9554,8160.80000000003
+"Philippines","1-061 Remainder of diseases of the nervous system","hist","holdout 2023","fitted","",12,1,9624,7795
+"Philippines","1-061 Remainder of diseases of the nervous system","nb","workbook calendar","fitted","",12,12,9554,9496.34603930085
+"Philippines","1-061 Remainder of diseases of the nervous system","nb","holdout 2023","fitted","",12,12,9624,8117.34002213536
+"Philippines","1-062 Diseases of the eye and adnexa","hist","workbook calendar","fitted","",12,12,28,49.6000000000009
+"Philippines","1-062 Diseases of the eye and adnexa","hist","holdout 2023","fitted","",12,8,16,58
+"Philippines","1-062 Diseases of the eye and adnexa","nb","workbook calendar","fitted","",12,12,28,34.4833644293494
+"Philippines","1-062 Diseases of the eye and adnexa","nb","holdout 2023","fitted","",12,5,16,75.3002039665205
+"Philippines","1-063 Diseases of the ear and mastoid process","hist","workbook calendar","fitted","",12,11,89,71.2000000000001
+"Philippines","1-063 Diseases of the ear and mastoid process","hist","holdout 2023","fitted","",12,8,20,84.0000000010978
+"Philippines","1-063 Diseases of the ear and mastoid process","nb","workbook calendar","fitted","",12,10,89,43.9153208986202
+"Philippines","1-063 Diseases of the ear and mastoid process","nb","holdout 2023","fitted","",12,2,20,99.5612706831104
+"Philippines","1-064 Diseases of the circulatory system","hist","workbook calendar","fitted","",12,1,266095,255652.000000011
+"Philippines","1-064 Diseases of the circulatory system","hist","holdout 2023","fitted","",12,1,263660,253650.000000029
+"Philippines","1-064 Diseases of the circulatory system","nb","workbook calendar","fitted","",12,12,266095,301939.187445906
+"Philippines","1-064 Diseases of the circulatory system","nb","holdout 2023","fitted","",12,12,263660,318145.306917692
+"Philippines","1-065 Acute rheumatic fever and chronic rheumatic heart diseases","hist","workbook calendar","fitted","",12,8,2230,2024.4
+"Philippines","1-065 Acute rheumatic fever and chronic rheumatic heart diseases","hist","holdout 2023","fitted","",12,10,2060,2015.49999999999
+"Philippines","1-065 Acute rheumatic fever and chronic rheumatic heart diseases","nb","workbook calendar","fitted","",12,12,2230,1952.36163701595
+"Philippines","1-065 Acute rheumatic fever and chronic rheumatic heart diseases","nb","holdout 2023","fitted","",12,12,2060,1847.6823326137
+"Philippines","1-066 Hypertensive diseases","hist","workbook calendar","fitted","",12,4,38088,37199.4000000672
+"Philippines","1-066 Hypertensive diseases","hist","holdout 2023","fitted","",12,1,38962,36758.7500002378
+"Philippines","1-066 Hypertensive diseases","nb","workbook calendar","fitted","",12,12,38088,48340.2281008125
+"Philippines","1-066 Hypertensive diseases","nb","holdout 2023","fitted","",12,12,38962,52514.5612288397
+"Philippines","1-067 Ischaemic heart diseases","hist","workbook calendar","fitted","",12,0,134074,122388.200000009
+"Philippines","1-067 Ischaemic heart diseases","hist","holdout 2023","fitted","",12,0,129300,120660.250000029
+"Philippines","1-067 Ischaemic heart diseases","nb","workbook calendar","fitted","",12,12,134074,152212.798152125
+"Philippines","1-067 Ischaemic heart diseases","nb","holdout 2023","fitted","",12,12,129300,159691.417856028
+"Philippines","1-068 Other heart diseases","hist","workbook calendar","fitted","",12,7,20552,21411.1999999999
+"Philippines","1-068 Other heart diseases","hist","holdout 2023","fitted","",12,7,21337,21429.7499999999
+"Philippines","1-068 Other heart diseases","nb","workbook calendar","fitted","",12,12,20552,22326.2877269517
+"Philippines","1-068 Other heart diseases","nb","holdout 2023","fitted","",12,12,21337,22899.8472590229
+"Philippines","1-069 Cerebrovascular diseases","hist","workbook calendar","fitted","",12,5,68729,70456.2000000015
+"Philippines","1-069 Cerebrovascular diseases","hist","holdout 2023","fitted","",12,5,69722,70639.7500000025
+"Philippines","1-069 Cerebrovascular diseases","nb","workbook calendar","fitted","",12,12,68729,76171.6880308328
+"Philippines","1-069 Cerebrovascular diseases","nb","holdout 2023","fitted","",12,12,69722,80849.9997562075
+"Philippines","1-070 Atherosclerosis","hist","workbook calendar","fitted","",12,8,345,323.800000000002
+"Philippines","1-070 Atherosclerosis","hist","holdout 2023","fitted","",12,6,208,352.75
+"Philippines","1-070 Atherosclerosis","nb","workbook calendar","fitted","",12,12,345,277.774059466135
+"Philippines","1-070 Atherosclerosis","nb","holdout 2023","fitted","",12,12,208,453.725760404062
+"Philippines","1-071 Remainder of diseases of the circulatory system","hist","workbook calendar","fitted","",12,11,2077,1848.80000000001
+"Philippines","1-071 Remainder of diseases of the circulatory system","hist","holdout 2023","fitted","",12,7,2071,1793.25
+"Philippines","1-071 Remainder of diseases of the circulatory system","nb","workbook calendar","fitted","",12,12,2077,2007.1195190235
+"Philippines","1-071 Remainder of diseases of the circulatory system","nb","holdout 2023","fitted","",12,9,2071,1765.39495208662
+"Philippines","1-072 Diseases of the respiratory system","hist","workbook calendar","fitted","",12,1,80126,73158.4000000004
+"Philippines","1-072 Diseases of the respiratory system","hist","holdout 2023","fitted","",12,2,77235,72139.2500000013
+"Philippines","1-072 Diseases of the respiratory system","nb","workbook calendar","fitted","",12,12,80126,64383.8457488946
+"Philippines","1-072 Diseases of the respiratory system","nb","holdout 2023","fitted","",12,11,77235,53309.2175593386
+"Philippines","1-073 Influenza","hist","workbook calendar","fitted","",12,12,26,31.6000000011462
+"Philippines","1-073 Influenza","hist","holdout 2023","fitted","",12,12,25,33.2500000228761
+"Philippines","1-073 Influenza","nb","workbook calendar","fitted","",12,11,26,16.137102944109
+"Philippines","1-073 Influenza","nb","holdout 2023","fitted","",12,12,25,14.7008129759769
+"Philippines","1-074 Pneumonia","hist","workbook calendar","fitted","",12,2,47260,42671.2000000146
+"Philippines","1-074 Pneumonia","hist","holdout 2023","fitted","",12,2,44079,42319.2500000654
+"Philippines","1-074 Pneumonia","nb","workbook calendar","fitted","",12,12,47260,33776.1556193998
+"Philippines","1-074 Pneumonia","nb","holdout 2023","fitted","",12,5,44079,26459.3306878877
+"Philippines","1-075 Other acute lower respiratory infections","hist","workbook calendar","fitted","",12,10,63,96.0000000000002
+"Philippines","1-075 Other acute lower respiratory infections","hist","holdout 2023","fitted","",12,11,90,97.500000000001
+"Philippines","1-075 Other acute lower respiratory infections","nb","workbook calendar","fitted","",12,10,63,100.432826481504
+"Philippines","1-075 Other acute lower respiratory infections","nb","holdout 2023","fitted","",12,12,90,113.860935466552
+"Philippines","1-076 Chronic lower respiratory diseases","hist","workbook calendar","fitted","",12,6,25035,24061.5999999999
+"Philippines","1-076 Chronic lower respiratory diseases","hist","holdout 2023","fitted","",12,1,25512,23699
+"Philippines","1-076 Chronic lower respiratory diseases","nb","workbook calendar","fitted","",12,12,25035,24102.4363855637
+"Philippines","1-076 Chronic lower respiratory diseases","nb","holdout 2023","fitted","",12,12,25512,21900.5844132346
+"Philippines","1-077 Remainder of diseases of the respiratory system","hist","workbook calendar","fitted","",12,0,7742,6297.99999999998
+"Philippines","1-077 Remainder of diseases of the respiratory system","hist","holdout 2023","fitted","",12,0,7529,5990.24999999997
+"Philippines","1-077 Remainder of diseases of the respiratory system","nb","workbook calendar","fitted","",12,12,7742,7198.04827739743
+"Philippines","1-077 Remainder of diseases of the respiratory system","nb","holdout 2023","fitted","",12,9,7529,5923.43210877471
+"Philippines","1-078 Diseases of the digestive system","hist","workbook calendar","fitted","",12,2,29383,27335.8
+"Philippines","1-078 Diseases of the digestive system","hist","holdout 2023","fitted","",12,1,29466,26803.2499999999
+"Philippines","1-078 Diseases of the digestive system","nb","workbook calendar","fitted","",12,12,29383,31310.6229986892
+"Philippines","1-078 Diseases of the digestive system","nb","holdout 2023","fitted","",12,12,29466,30413.2997497178
+"Philippines","1-079 Gastric and duodenal ulcer","hist","workbook calendar","fitted","",12,8,5905,6074.79999999999
+"Philippines","1-079 Gastric and duodenal ulcer","hist","holdout 2023","fitted","",12,9,6118,6064
+"Philippines","1-079 Gastric and duodenal ulcer","nb","workbook calendar","fitted","",12,11,5905,6715.60620359395
+"Philippines","1-079 Gastric and duodenal ulcer","nb","holdout 2023","fitted","",12,12,6118,7047.35710533257
+"Philippines","1-080 Diseases of the liver","hist","workbook calendar","fitted","",12,7,11605,10954
+"Philippines","1-080 Diseases of the liver","hist","holdout 2023","fitted","",12,4,11781,10747.25
+"Philippines","1-080 Diseases of the liver","nb","workbook calendar","fitted","",12,11,11605,12382.0552084299
+"Philippines","1-080 Diseases of the liver","nb","holdout 2023","fitted","",12,12,11781,11970.6975655258
+"Philippines","1-081 Remainder of diseases of the digestive system","hist","workbook calendar","fitted","",12,0,11873,10307
+"Philippines","1-081 Remainder of diseases of the digestive system","hist","holdout 2023","fitted","",12,0,11567,9992.00000000004
+"Philippines","1-081 Remainder of diseases of the digestive system","nb","workbook calendar","fitted","",12,12,11873,12216.645618473
+"Philippines","1-081 Remainder of diseases of the digestive system","nb","holdout 2023","fitted","",12,12,11567,11410.788542933
+"Philippines","1-082 Diseases of the skin and subcutaneous tissue","hist","workbook calendar","fitted","",12,0,5160,4175.2
+"Philippines","1-082 Diseases of the skin and subcutaneous tissue","hist","holdout 2023","fitted","",12,0,4964,3977.99999999999
+"Philippines","1-082 Diseases of the skin and subcutaneous tissue","nb","workbook calendar","fitted","",12,12,5160,5131.574472609
+"Philippines","1-082 Diseases of the skin and subcutaneous tissue","nb","holdout 2023","fitted","",12,11,4964,4479.16973915135
+"Philippines","1-083 Diseases of the musculoskeletal system and connective tissue","hist","workbook calendar","fitted","",12,1,5660,4526.20000000041
+"Philippines","1-083 Diseases of the musculoskeletal system and connective tissue","hist","holdout 2023","fitted","",12,0,2606,5006.24999999999
+"Philippines","1-083 Diseases of the musculoskeletal system and connective tissue","nb","workbook calendar","fitted","",12,10,5660,3699.15995406515
+"Philippines","1-083 Diseases of the musculoskeletal system and connective tissue","nb","holdout 2023","fitted","",12,0,2606,6252.1840200044
+"Philippines","1-084 Diseases of the genitourinary system","hist","workbook calendar","fitted","",12,10,22365,22941.4
+"Philippines","1-084 Diseases of the genitourinary system","hist","holdout 2023","fitted","",12,5,23702,22751.25
+"Philippines","1-084 Diseases of the genitourinary system","nb","workbook calendar","fitted","",12,12,22365,25157.3781990445
+"Philippines","1-084 Diseases of the genitourinary system","nb","holdout 2023","fitted","",12,12,23702,25311.5197905515
+"Philippines","1-085 Glomerular and renal tubulo-interstitial diseases","hist","workbook calendar","fitted","",12,10,3419,3269.80000004378
+"Philippines","1-085 Glomerular and renal tubulo-interstitial diseases","hist","holdout 2023","fitted","",12,10,3382,3241.75000000001
+"Philippines","1-085 Glomerular and renal tubulo-interstitial diseases","nb","workbook calendar","fitted","",12,11,3419,3260.19475969639
+"Philippines","1-085 Glomerular and renal tubulo-interstitial diseases","nb","holdout 2023","fitted","",12,11,3382,3072.43602873897
+"Philippines","1-086 Remainder of diseases of the genitourinary system","hist","workbook calendar","fitted","",12,10,18946,19671.6000000001
+"Philippines","1-086 Remainder of diseases of the genitourinary system","hist","holdout 2023","fitted","",12,4,20320,19509.5
+"Philippines","1-086 Remainder of diseases of the genitourinary system","nb","workbook calendar","fitted","",12,12,18946,21936.3988231599
+"Philippines","1-086 Remainder of diseases of the genitourinary system","nb","holdout 2023","fitted","",12,12,20320,22313.1070821837
+"Philippines","1-087 Pregnancy childbirth and the puerperium","hist","workbook calendar","fitted","",12,11,1852,1957.40000000322
+"Philippines","1-087 Pregnancy childbirth and the puerperium","hist","holdout 2023","fitted","",12,9,1868,1979.75000000607
+"Philippines","1-087 Pregnancy childbirth and the puerperium","nb","workbook calendar","fitted","",12,12,1852,2272.40222715506
+"Philippines","1-087 Pregnancy childbirth and the puerperium","nb","holdout 2023","fitted","",12,11,1868,2625.37601085819
+"Philippines","1-088 Pregnancy with abortive outcome","hist","workbook calendar","fitted","",12,10,125,167.400000000537
+"Philippines","1-088 Pregnancy with abortive outcome","hist","holdout 2023","fitted","",12,12,146,172.750000002646
+"Philippines","1-088 Pregnancy with abortive outcome","nb","workbook calendar","fitted","",12,12,125,173.530346115568
+"Philippines","1-088 Pregnancy with abortive outcome","nb","holdout 2023","fitted","",12,12,146,214.562562390857
+"Philippines","1-089 Other direct obstetric deaths","hist","workbook calendar","fitted","",12,10,1296,1396.8
+"Philippines","1-089 Other direct obstetric deaths","hist","holdout 2023","fitted","",12,10,1311,1418.25
+"Philippines","1-089 Other direct obstetric deaths","nb","workbook calendar","fitted","",12,12,1296,1497.36845201521
+"Philippines","1-089 Other direct obstetric deaths","nb","holdout 2023","fitted","",12,9,1311,1699.74153596085
+"Philippines","1-090 Indirect obstetric deaths","hist","workbook calendar","fitted","",12,10,330,347.800000000833
+"Philippines","1-090 Indirect obstetric deaths","hist","holdout 2023","fitted","",12,9,314,356.250000000441
+"Philippines","1-090 Indirect obstetric deaths","nb","workbook calendar","fitted","",12,12,330,540.040420633717
+"Philippines","1-090 Indirect obstetric deaths","nb","holdout 2023","fitted","",12,11,314,702.26168015106
+"Philippines","1-091 Remainder of pregnancy childbirth and the puerperium","hist","workbook calendar","fitted","",12,7,101,45.4000000008977
+"Philippines","1-091 Remainder of pregnancy childbirth and the puerperium","hist","holdout 2023","fitted","",12,2,97,32.500000000357
+"Philippines","1-091 Remainder of pregnancy childbirth and the puerperium","nb","workbook calendar","fitted","",12,12,101,112.603607211415
+"Philippines","1-091 Remainder of pregnancy childbirth and the puerperium","nb","holdout 2023","fitted","",12,12,97,53.2181844654153
+"Philippines","1-092 Certain conditions originating in the perinatal period","hist","workbook calendar","fitted","",12,7,10272,10478.6000002725
+"Philippines","1-092 Certain conditions originating in the perinatal period","hist","holdout 2023","fitted","",12,7,10846,10386.75
+"Philippines","1-092 Certain conditions originating in the perinatal period","nb","workbook calendar","fitted","",12,12,10272,10481.1710316705
+"Philippines","1-092 Certain conditions originating in the perinatal period","nb","holdout 2023","fitted","",12,12,10846,9898.74445397502
+"Philippines","1-093 Congenital malformations deformations and chromosomal abnormalities","hist","workbook calendar","fitted","",12,8,6007,5776.4
+"Philippines","1-093 Congenital malformations deformations and chromosomal abnormalities","hist","holdout 2023","fitted","",12,4,6481,5600.25
+"Philippines","1-093 Congenital malformations deformations and chromosomal abnormalities","nb","workbook calendar","fitted","",12,12,6007,6517.94089544161
+"Philippines","1-093 Congenital malformations deformations and chromosomal abnormalities","nb","holdout 2023","fitted","",12,12,6481,5888.47394463208
+"Philippines","1-094 Symptoms signs and abnormal clinical and laboratory findings not elsewhere classified","hist","workbook calendar","fitted","",12,3,32934,35758.0000000001
+"Philippines","1-094 Symptoms signs and abnormal clinical and laboratory findings not elsewhere classified","hist","holdout 2023","fitted","",12,2,35590,35800.0000000003
+"Philippines","1-094 Symptoms signs and abnormal clinical and laboratory findings not elsewhere classified","nb","workbook calendar","fitted","",12,12,32934,52616.2568394984
+"Philippines","1-094 Symptoms signs and abnormal clinical and laboratory findings not elsewhere classified","nb","holdout 2023","fitted","",12,9,35590,64204.0457322025
+"Philippines","1-095 External causes of morbidity and mortality","hist","workbook calendar","fitted","",12,3,43720,40839.8000000002
+"Philippines","1-095 External causes of morbidity and mortality","hist","holdout 2023","fitted","",12,5,41964,40558.7500000002
+"Philippines","1-095 External causes of morbidity and mortality","nb","workbook calendar","fitted","",12,12,43720,42018.3569946534
+"Philippines","1-095 External causes of morbidity and mortality","nb","holdout 2023","fitted","",12,12,41964,40910.1280604829
+"Philippines","1-096 Transport accidents","hist","workbook calendar","fitted","",12,0,13881,11626.0000000176
+"Philippines","1-096 Transport accidents","hist","holdout 2023","fitted","",12,2,13181,11237.2500000739
+"Philippines","1-096 Transport accidents","nb","workbook calendar","fitted","",12,12,13881,12884.9069631734
+"Philippines","1-096 Transport accidents","nb","holdout 2023","fitted","",12,12,13181,11375.8302281427
+"Philippines","1-096a Land transport accidents","hist","workbook calendar","fitted","",12,0,13865,11598.0000000169
+"Philippines","1-096a Land transport accidents","hist","holdout 2023","fitted","",12,2,13125,11216.2500000709
+"Philippines","1-096a Land transport accidents","nb","workbook calendar","fitted","",12,12,13865,12849.9703036759
+"Philippines","1-096a Land transport accidents","nb","holdout 2023","fitted","",12,12,13125,11374.2622357197
+"Philippines","1-096b Water transport accidents","hist","workbook calendar","fitted","",12,11,10,12.0000000047128
+"Philippines","1-096b Water transport accidents","hist","holdout 2023","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-096b Water transport accidents","nb","workbook calendar","fitted","",12,12,10,25.919173541595
+"Philippines","1-096b Water transport accidents","nb","holdout 2023","fitted","",12,11,34,5.88933554805324
+"Philippines","1-096c Air and space transport accidents","hist","workbook calendar","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-096c Air and space transport accidents","hist","holdout 2023","stopped","A baseline month has no deaths for this cause. Use Negative Binomial or a broader cause group.",,,,
+"Philippines","1-096c Air and space transport accidents","nb","workbook calendar","fitted","",12,12,1,8.59909276209167
+"Philippines","1-096c Air and space transport accidents","nb","holdout 2023","fitted","",12,10,16,1.20540346012103
+"Philippines","1-096d Other and unspecified transport accidents","hist","workbook calendar","fitted","",12,12,5,9.40000000000981
+"Philippines","1-096d Other and unspecified transport accidents","hist","holdout 2023","fitted","",12,12,6,10.2500000000009
+"Philippines","1-096d Other and unspecified transport accidents","nb","workbook calendar","fitted","",12,11,5,1.56451270632291
+"Philippines","1-096d Other and unspecified transport accidents","nb","holdout 2023","fitted","",12,11,6,0.708985306625489
+"Philippines","1-097 Falls","hist","workbook calendar","fitted","",12,7,4468,4230.60000012752
+"Philippines","1-097 Falls","hist","holdout 2023","fitted","",12,8,4214,4234.75000041677
+"Philippines","1-097 Falls","nb","workbook calendar","fitted","",12,12,4468,5415.37434732521
+"Philippines","1-097 Falls","nb","holdout 2023","fitted","",12,10,4214,6235.38242782359
+"Philippines","1-098 Accidental drowning and submersion","hist","workbook calendar","fitted","",12,8,3504,3362.60000000015
+"Philippines","1-098 Accidental drowning and submersion","hist","holdout 2023","fitted","",12,4,3580,3308.2500000009
+"Philippines","1-098 Accidental drowning and submersion","nb","workbook calendar","fitted","",12,12,3504,3793.45478526874
+"Philippines","1-098 Accidental drowning and submersion","nb","holdout 2023","fitted","",12,12,3580,3735.68548977571
+"Philippines","1-099 Exposure to smoke fire and flames","hist","workbook calendar","fitted","",12,9,517,427.000000001738
+"Philippines","1-099 Exposure to smoke fire and flames","hist","holdout 2023","fitted","",12,7,525,402.500000008727
+"Philippines","1-099 Exposure to smoke fire and flames","nb","workbook calendar","fitted","",12,12,517,491.82028560622
+"Philippines","1-099 Exposure to smoke fire and flames","nb","holdout 2023","fitted","",12,10,525,386.816922729649
+"Philippines","1-100 Accidental poisoning by and exposure to noxious substances","hist","workbook calendar","fitted","",12,5,905,708.600000000231
+"Philippines","1-100 Accidental poisoning by and exposure to noxious substances","hist","holdout 2023","fitted","",12,9,795,687.000000000406
+"Philippines","1-100 Accidental poisoning by and exposure to noxious substances","nb","workbook calendar","fitted","",12,12,905,911.617667950528
+"Philippines","1-100 Accidental poisoning by and exposure to noxious substances","nb","holdout 2023","fitted","",12,12,795,899.745639157908
+"Philippines","1-101 Intentional self-harm","hist","workbook calendar","fitted","",12,2,3067,3689.60000000025
+"Philippines","1-101 Intentional self-harm","hist","holdout 2023","fitted","",12,4,3133,3828.75000000051
+"Philippines","1-101 Intentional self-harm","nb","workbook calendar","fitted","",12,12,3067,3332.08964521208
+"Philippines","1-101 Intentional self-harm","nb","holdout 2023","fitted","",12,12,3133,4007.34622237397
+"Philippines","1-102 Assault","hist","workbook calendar","fitted","",12,0,2543,6118.00000001229
+"Philippines","1-102 Assault","hist","holdout 2023","fitted","",12,0,3393,6799.25000000036
+"Philippines","1-102 Assault","nb","workbook calendar","fitted","",12,10,2543,2820.21332801652
+"Philippines","1-102 Assault","nb","holdout 2023","fitted","",12,12,3393,3855.80723034272
+"Philippines","1-103 All other external causes","hist","workbook calendar","fitted","",12,0,14835,10677.4000000003
+"Philippines","1-103 All other external causes","hist","holdout 2023","fitted","",12,0,13143,10061.0000000006
+"Philippines","1-103 All other external causes","nb","workbook calendar","fitted","",12,12,14835,13465.4468376156
+"Philippines","1-103 All other external causes","nb","holdout 2023","fitted","",12,12,13143,11386.2546241891
+"Philippines","1-901 SARS","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","1-901 SARS","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","1-901 SARS","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","1-901 SARS","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","All causes (registered deaths)","hist","workbook calendar","fitted","",12,3,701884,697673.200000148
+"Philippines","All causes (registered deaths)","hist","holdout 2023","fitted","",12,2,694821,698386.250000356
+"Philippines","All causes (registered deaths)","nb","workbook calendar","fitted","",12,12,701884,771595.560695299
+"Philippines","All causes (registered deaths)","nb","holdout 2023","fitted","",12,12,694821,820831.582630351
+"Philippines","COVID-19","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 vaccines causing adverse effects in therapeutic use","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 vaccines causing adverse effects in therapeutic use","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 vaccines causing adverse effects in therapeutic use","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 vaccines causing adverse effects in therapeutic use","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus identified","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus identified","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus identified","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus identified","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus not identified","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus not identified","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus not identified","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","COVID-19 Virus not identified","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Multisystem inflammatory syndrome associated with COVID-19","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Multisystem inflammatory syndrome associated with COVID-19","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Multisystem inflammatory syndrome associated with COVID-19","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Multisystem inflammatory syndrome associated with COVID-19","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Post COVID-19 condition","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Post COVID-19 condition","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Post COVID-19 condition","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Post COVID-19 condition","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Vaping-related disorder","hist","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Vaping-related disorder","hist","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Vaping-related disorder","nb","workbook calendar","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,
+"Philippines","Vaping-related disorder","nb","holdout 2023","stopped","The selected cause has missing counts. Complete the source data before fitting; missing values are not zeros.",,,,

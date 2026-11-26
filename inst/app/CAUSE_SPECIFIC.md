@@ -1,10 +1,10 @@
 # Monthly cause-specific mortality
 
-The development version of exmort supports selecting one country and one cause after importing a workbook. The existing all-cause examples remain available. This change does not update the installed CRAN package or publish a package release.
+exmort 0.1.2 supports selecting one country and one cause from a monthly workbook. The all-cause examples also remain available.
 
 ## Use the calculator
 
-1. Install the GitHub development version in RStudio and run `exmort::run_app()`.
+1. Install exmort 0.1.2 or later and run `exmort::run_app()` in RStudio.
 2. On **Data**, choose **Built-in example data**, then **Australia: monthly causes of death** or **Philippines: monthly causes of death**. Keep **National level** and **events** selected and merge the data.
 3. Select **Country** and **Cause of death**. The data summary, model, tables, plots and report use this selection. Switching the country or cause clears previous results and reports.
 4. On **Model**, select subgroups and run **Historical Average**, **Negative Binomial**, or both. Inspect the results before using them in a report.
@@ -62,10 +62,42 @@ Cause-specific modelling currently supports monthly data with Historical Average
 
 ## Validation
 
+### Release assessment for 0.1.2
+
+With the supplied event calendars, 226 of 256 category/model combinations
+returned estimates. Australia contributed 11 of 12 categories for each model.
+The Philippines contributed 100 of 116 for Historical Average and 104 of 116
+for Negative Binomial. The remaining fits stopped on missing observations,
+an all-zero baseline, or a calendar month with zero deaths across the
+historical baseline. Totals and subcategories count as separate series.
+For completed fits, monthly excess, P-scores and event totals reconciled,
+and the Historical Average matched the arithmetic mean for each calendar month.
+
+To check predictions on unseen observations, the final year of each original
+baseline was withheld. Both models used only the four preceding years.
+The table counts observed months inside the nominal 95% count prediction
+interval among the series that each model could fit.
+
+| Held-out country and year | Historical Average | Negative Binomial |
+| --- | ---: | ---: |
+| Australia, 2019 | 73 / 132 (55.3%) | 128 / 132 (97.0%) |
+| Philippines, 2023 | 625 / 1,176 (53.1%) | 1,086 / 1,248 (87.0%) |
+
+Use Historical Average for a descriptive seasonal comparison. Its Poisson
+intervals missed many observations in both examples. Negative Binomial
+coverage varied by setting. These two holdouts include overlapping cause
+categories and do not establish general calibration. Check local out-of-sample
+performance before using intervals for alerts. Population change, disease
+coding and registration changes can affect a count-based baseline.
+
+The [per-series audit](https://shanlong-who.github.io/exmort/cause-model-audit.csv)
+includes stopped fits and their reasons. Reproduce it from the package source
+with `Rscript data-raw/check_cause_models.R results.csv`.
+
 Run `devtools::test()` and `devtools::check()` from the package directory. Checks cover official-workbook values and labels, legacy monthly/weekly imports, long-format country/cause fields, zero/missing/invalid counts, baseline guards, model identities and aggregate consistency, cause selection and stale-result clearing, fractional expected counts, chart context, and report context/reset.
 
 ## Integration with the packaged application
 
-The GitHub application remains the base. GAM, Karlinsky-Kobak, ARIMA, Quasi-Poisson, Zero-Inflated Poisson and Best Fit remain available for all-cause inputs. Cause-specific runs use Historical Average and Negative Binomial only. Best Fit retains the existing convention: Historical Average is shown as N/A; the cause-specific Negative Binomial supplies its baseline AIC. A single eligible model does not establish comparative superiority.
+GAM, Karlinsky-Kobak, ARIMA, Quasi-Poisson, Zero-Inflated Poisson and Best Fit remain available for all-cause inputs. Cause-specific runs use Historical Average and Negative Binomial. The Best Fit tab displays the negative-binomial baseline AIC and leaves the ranking empty when it has only one eligible model.
 
 The original source snapshot and raw retrieval files are preserved on the [backup branch](https://github.com/shanlong-who/exmort/tree/codex/cause-specific-calculator-backup-20261021/development). Extract its calculator snapshot to reproduce the preparation workflow, or place its documented raw inputs under `inst/app/data-raw/official_causes/`. These source files are not runtime dependencies.
