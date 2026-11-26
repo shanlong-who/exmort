@@ -1,6 +1,6 @@
 # Changelog
 
-## exmort 0.1.1.9000
+## exmort 0.1.2
 
 - Added an English and Simplified Chinese interface with an in-session
   language selector.
@@ -15,6 +15,20 @@
 
 - Preserved the seven all-cause models, GAM, Karlinsky-Kobak, and Best
   Fit. Switching series clears predictions, AIC and report snapshots.
+
+- Checked both cause models against every category in the two bundled
+  workbooks. In a one-year holdout, historical-average prediction
+  intervals covered 55% of eligible category-months in Australia and 53%
+  in the Philippines. Negative-binomial coverage was 97% and 87%,
+  respectively. The model screen and generated reports explain the
+  limits of these intervals for surveillance.
+
+- Preserved cause-specific P-score precision in result data and
+  fractional expected deaths in reports. The app shows the
+  negative-binomial AIC without ranking a sole eligible cause model.
+
+- Published English and Simplified Chinese homepages with a worked
+  example.
 
 ## exmort 0.1.1
 

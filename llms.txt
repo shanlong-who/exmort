@@ -74,7 +74,7 @@ library(exmort)
 run_app()
 ```
 
-GitHub development version
+New in exmort 0.1.2
 
 ## Explore mortality by cause
 
@@ -83,10 +83,15 @@ workbooks. Compare historical-average and negative-binomial baselines.
 The Philippine example compares 2024 with 2019–2023, a period that
 includes pandemic years.
 
+The historical-average prediction interval included 55% of held-out
+monthly counts in Australia and 53% in the Philippines.
+Negative-binomial coverage was 97% and 87%, respectively. Check local
+performance before using intervals for alerts.
+
 [Read the cause-specific
-guide](https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md)[Install
-the development
-version](https://shanlong-who.github.io/exmort/articles/exmort.html#install-and-launch)
+guide](https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md)[Download
+the model audit
+(CSV)](https://shanlong-who.github.io/exmort/cause-model-audit.csv)
 
 [Cite
 exmort](https://shanlong-who.github.io/exmort/authors.html#citation)[Release

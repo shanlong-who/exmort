@@ -94,6 +94,20 @@ ggplot(plot_data, aes(month, deaths, colour = series, linetype = series)) +
 deaths rising above a constant expected
 baseline.](models-and-interpretation_files/figure-html/arithmetic-plot-1.png)
 
+## Monthly cause-specific baselines
+
+For monthly cause-specific analysis in exmort 0.1.2, compare Historical
+Average and Negative Binomial on complete baseline years. In a held-out
+year for each bundled workbook, the nominal 95% count prediction
+interval covered 55% (Australia) and 53% (Philippines) of eligible
+category-months for Historical Average, versus 97% and 87% for Negative
+Binomial. The Philippine training history includes pandemic years.
+Inspect the observed series, baseline definition and local predictive
+performance before using these intervals for surveillance. The
+[cause-specific
+guide](https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md)
+gives the denominators and eligibility rules.
+
 ## Aggregate the numerator and denominator
 
 For several periods, calculate a cumulative P-score from the summed
@@ -222,7 +236,7 @@ whether the data are provisional and record their extraction date.
 ``` r
 
 packageVersion("exmort")
-#> [1] '0.1.1.9000'
+#> [1] '0.1.2'
 ```
 
 The **Methods** tab includes the methodology PDF shipped with the app.
