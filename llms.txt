@@ -1,5 +1,7 @@
 # Compare observed and *expected deaths.*
 
+[English](https://shanlong-who.github.io/exmort/)[简体中文](https://shanlong-who.github.io/exmort/zh/)
+
 ![](reference/figures/logo.png)exmort All-cause and excess mortality
 calculator
 

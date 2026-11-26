@@ -15,6 +15,12 @@
 .em-home a:hover { text-decoration-thickness: 2px; }
 .em-home a:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
 .em-home [id] { scroll-margin-top: 6rem; }
+.em-language { display: flex; justify-content: flex-end; gap: .25rem; margin: .45rem 0; }
+.em-language a { padding: .4rem .75rem; border-radius: .3rem; font-size: 1rem; }
+.em-language a[aria-current="page"] { background: var(--em-tint); color: var(--em-ink); font-weight: 650; text-decoration: none; }
+html:lang(zh) .em-home { font-family: "Source Sans Pro", "Microsoft YaHei", "PingFang SC", sans-serif; line-height: 1.7; }
+html:lang(zh) .em-home h1 { line-height: 1.18; letter-spacing: -.025em; }
+html:lang(zh) .em-home h1 em { display: inline-block; max-width: 100%; font-family: inherit; font-style: normal; font-weight: inherit; }
 .em-home :is(h1,h2,h3) { color: var(--em-ink); line-height: 1.12; letter-spacing: -.03em; }
 .em-home h2 { margin: 0 0 1rem; font-weight: 700; font-size: clamp(1.8rem, 3vw, 2.55rem); }
 .em-home h3 { margin: 0 0 .7rem; font-size: 1.35rem; }
