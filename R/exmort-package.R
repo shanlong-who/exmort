@@ -21,6 +21,7 @@
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom htmltools HTML
 #' @importFrom ISOweek ISOweek2date
+#' @importFrom jsonlite fromJSON
 #' @importFrom kableExtra kbl
 #' @importFrom knitr knit
 #' @importFrom lubridate ymd
