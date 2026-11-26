@@ -1,5 +1,7 @@
 <div class="em-home">
 
+<nav class="em-language" aria-label="Homepage language"><a href="./" hreflang="en" lang="en" aria-current="page">English</a><a href="zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a></nav>
+
 <section class="em-hero" aria-labelledby="em-title">
 <div class="em-intro">
 <div class="em-brand"><img src="man/figures/logo.png" width="60" height="69" alt=""><span>exmort <small>All-cause and excess mortality calculator</small></span></div>

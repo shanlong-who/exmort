@@ -13,7 +13,6 @@ example.plot <- ggplot(monthly.example, aes(x = month)) +
   geom_line(aes(y = expected), colour = "#555555", linetype = "dashed", linewidth = 0.8) +
   geom_line(aes(y = observed), colour = "#0072B2", linewidth = 1.2) +
   geom_point(aes(y = observed), colour = "#0072B2", size = 2.2) +
-  scale_x_continuous(breaks = 1:6, labels = month.abb[1:6]) +
   scale_y_continuous(breaks = c(950, 1000, 1100, 1200, 1250),
                      labels = scales::label_comma(), limits = c(945, 1265)) +
   labs(x = NULL, y = NULL) +
@@ -23,5 +22,9 @@ example.plot <- ggplot(monthly.example, aes(x = month)) +
         plot.margin = margin(3, 5, 0, 0))
 
 dir.create("pkgdown/assets", recursive = TRUE, showWarnings = FALSE)
-ggsave("pkgdown/assets/monthly-example.png", example.plot, device = grDevices::png,
+english.plot <- example.plot + scale_x_continuous(breaks = 1:6, labels = month.abb[1:6])
+chinese.plot <- example.plot + scale_x_continuous(breaks = 1:6, labels = paste0(1:6, "月"))
+ggsave("pkgdown/assets/monthly-example.png", english.plot, device = grDevices::png,
+       width = 6, height = 3.1, dpi = 200, bg = "white")
+ggsave("pkgdown/assets/monthly-example-zh.png", chinese.plot, device = grDevices::png,
        width = 6, height = 3.1, dpi = 200, bg = "white")
