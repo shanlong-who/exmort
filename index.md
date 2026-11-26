@@ -1,106 +1,92 @@
-# exmort
+# Compare observed and *expected deaths.*
 
-**All-Cause and Excess Mortality Calculator** — an R Shiny application
-for estimating all-cause mortality and excess mortality from
-country-level weekly or monthly death counts, developed at the WHO
-Regional Office for the Western Pacific (WPRO).
+![](reference/figures/logo.png)exmort All-cause and excess mortality
+calculator
 
-You supply observed deaths and an event calendar (e.g. COVID-19 waves,
-typhoons). The app fits one or more statistical baseline models using
-periods outside the supplied events, estimates expected deaths across
-the observed series, and reports excess deaths, P-scores and confidence
-limits with tables, plots and downloadable reports.
+How different was mortality during a heatwave, outbreak or other event?
+Use weekly or monthly death counts to estimate a baseline and see how
+far recorded deaths were above or below it.
 
-Baseline models included:
+[Open the
+calculator](https://shanlong-who.github.io/excess-mortality/)[Run in
+RStudio](#run-in-r)
 
-- Historical average
-- Negative binomial regression
-- Quasi-Poisson regression
-- Zero-inflated Poisson
-- ARIMA / SARIMA
-- Generalized additive model (GAM spline)
-- Karlinsky–Kobak model
+The browser version downloads R on your first visit. Start with a
+built-in example or open your own workbook.
 
-Documentation: <https://shanlong-who.github.io/exmort/>
+[![Current CRAN
+version](https://www.r-pkg.org/badges/version/exmort)](https://cran.r-project.org/package=exmort)
+[![Total CRAN
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/exmort)](https://cran.r-project.org/package=exmort)
+[![R CMD check
+status](https://github.com/shanlong-who/exmort/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/shanlong-who/exmort/actions/workflows/R-CMD-check.yaml)
 
-The GitHub development version also supports selecting one country and
-one cause of death from a monthly workbook. It includes official
-Australian (2015-May 2026) and Philippine (2019-2024) examples, a
-cause-specific template, and separate historical-average and
-negative-binomial baselines. The seven all-cause models and Best Fit
-remain available. See the [cause-specific
-guide](https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md)
-for use and data limitations. The Philippine example compares 2024 with
-pandemic-inclusive 2019-2023 history; it is not a pre-pandemic
-counterfactual. These additions are not yet on CRAN.
+Observed deathsExpected deaths
 
-## Guides
+![Monthly observed deaths rise from 980 in January to 1,230 in April,
+then fall to 1,060 in June. The expected baseline stays at
+1,000.](monthly-example.png)
 
-| Guide | What you will learn |
-|----|----|
-| [Getting started](https://shanlong-who.github.io/exmort/articles/exmort.html) | Install the package, run a built-in example and export a report |
-| [Preparing data](https://shanlong-who.github.io/exmort/articles/data-preparation.html) | Fill the weekly or monthly workbook and define the event calendar |
-| [Models and interpretation](https://shanlong-who.github.io/exmort/articles/models-and-interpretation.html) | Compare baselines, read uncertainty and explain excess deaths and P-scores |
+April excess deaths**+230**
 
-The website contains documentation. Launch the Shiny calculator from R
-to perform an analysis.
+April P-score**+23%**
 
-## Installation
+In April, 1,230 deaths were observed and 1,000 were expected. The
+difference was 23% of the expected count.
 
-Install from [CRAN](https://cran.r-project.org/package=exmort):
+[See how the P-score is
+calculated](https://shanlong-who.github.io/exmort/articles/models-and-interpretation.html#observed-expected-and-excess-deaths)
+
+Worked example · Synthetic data**Six months of mortality**
+
+## From a workbook to a report
+
+### [Prepare the data](https://shanlong-who.github.io/exmort/articles/data-preparation.md)
+
+Match weekly or monthly death counts to an event calendar. Check dates,
+missing counts and which periods will form the baseline.
+
+### [Compare baselines](https://shanlong-who.github.io/exmort/articles/models-and-interpretation.md)
+
+Explore seven all-cause models, from historical averages to seasonal
+regression. Read the uncertainty alongside the estimated excess.
+
+### [Run your first analysis](https://shanlong-who.github.io/exmort/articles/exmort.md)
+
+Follow a built-in country example from the first import to a results
+table, a plot and a downloadable report.
+
+## Run exmort in RStudio
+
+Install the CRAN release once. Then launch the calculator from the
+RStudio console whenever you need it.
+
+[CRAN package](https://cran.r-project.org/package=exmort)[Function
+reference](https://shanlong-who.github.io/exmort/reference/run_app.md)
 
 ``` r
 
 install.packages("exmort")
-```
-
-Development version from GitHub:
-
-``` r
-
-# install.packages("remotes")
-remotes::install_github("shanlong-who/exmort")
-```
-
-## Usage
-
-``` r
 
 library(exmort)
 run_app()
 ```
 
-In the development version, select **English** or **简体中文** from
-**Language / 语言** in the navigation bar. You can switch during an
-analysis and keep your data, choices and fitted results. Generated
-reports use English.
+GitHub development version
 
-The app opens in your default web browser and runs entirely on your
-machine — no data leaves your computer. Built-in example datasets for
-several countries are included; you can also upload your own workbook
-using the templates on the **Data** tab.
+## Explore mortality by cause
 
-Start with **Data → Upload Data → Built-in example data**, select a
-country and its mortality and event sheets, then click **Merge Built-in
-Data**. Review **View Data**, open **Model**, choose a group and click
-**Run Model**. Inspect **Tables** and **Plots** before generating an
-HTML report.
+Select a country and cause from the Australian or Philippine monthly
+workbooks. Compare historical-average and negative-binomial baselines.
+The Philippine example compares 2024 with 2019–2023, a period that
+includes pandemic years.
 
-The current models use periods outside the supplied events
-(`event_index == "0"`) as their baseline. These may include observations
-after an event; review the input time range and event calendar
-carefully.
+[Read the cause-specific
+guide](https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md)[Install
+the development
+version](https://shanlong-who.github.io/exmort/articles/exmort.html#install-and-launch)
 
-Use RStudio’s Stop button or Escape in the console to stop the app.
-
-## Optional features
-
-- **Word (.docx) reports** need the `officedown` package:
-  `install.packages("officedown")`.
-- **PDF reports** need a LaTeX installation, e.g.
-  [`tinytex::install_tinytex()`](https://rdrr.io/pkg/tinytex/man/install_tinytex.html).
-
-## License
-
-GPL-3. © World Health Organization Regional Office for the Western
-Pacific.
+[Cite
+exmort](https://shanlong-who.github.io/exmort/authors.html#citation)[Release
+notes](https://shanlong-who.github.io/exmort/news/index.md)[Source on
+GitHub](https://github.com/shanlong-who/exmort)

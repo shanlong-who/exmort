@@ -7,14 +7,15 @@
 <title>exmort — All-Cause and Excess Mortality Calculator • exmort</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
-<link href="deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.5.0/font.css" rel="stylesheet">
+<link href="deps/JetBrains_Mono-0.5.0/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="exmort — All-Cause and Excess Mortality Calculator">
-<meta name="description" content="A local R Shiny calculator for weekly and monthly all-cause mortality, expected deaths, excess deaths and P-scores, with model comparisons and reports.
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="exmort — All-Cause and Excess Mortality Calculator">
+<meta name="description" content="Compare observed and expected deaths using weekly or monthly counts. Open the browser calculator or run exmort in RStudio to estimate excess deaths and P-scores.
 ">
-<meta property="og:description" content="A local R Shiny calculator for weekly and monthly all-cause mortality, expected deaths, excess deaths and P-scores, with model comparisons and reports.
+<meta property="og:description" content="Compare observed and expected deaths using weekly or monthly counts. Open the browser calculator or run exmort in RStudio to estimate excess deaths and P-scores.
 ">
 <meta property="og:image" content="https://shanlong-who.github.io/exmort/logo.png">
 </head>
@@ -58,139 +59,113 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
+  <main id="main" class="col-md-9"><div class="em-home">
+<section class="em-hero" aria-labelledby="em-title"><div class="em-intro">
+<div class="em-brand">
+<img src="reference/figures/logo.png" width="60" height="69" alt=""><span>exmort <small>All-cause and excess mortality calculator</small></span>
+</div>
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="exmort-">exmort 
-<a class="anchor" aria-label="anchor" href="#exmort-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="em-title">
+Compare observed and <em>expected deaths.</em>
 </h1>
 </div>
-<!-- badges: start -->
-
-<p><strong>All-Cause and Excess Mortality Calculator</strong> — an R Shiny application for estimating all-cause mortality and excess mortality from country-level weekly or monthly death counts, developed at the WHO Regional Office for the Western Pacific (WPRO).</p>
-<p>You supply observed deaths and an event calendar (e.g. COVID-19 waves, typhoons). The app fits one or more statistical baseline models using periods outside the supplied events, estimates expected deaths across the observed series, and reports excess deaths, P-scores and confidence limits with tables, plots and downloadable reports.</p>
-<p>Baseline models included:</p>
-<ul>
-<li>Historical average</li>
-<li>Negative binomial regression</li>
-<li>Quasi-Poisson regression</li>
-<li>Zero-inflated Poisson</li>
-<li>ARIMA / SARIMA</li>
-<li>Generalized additive model (GAM spline)</li>
-<li>Karlinsky–Kobak model</li>
-</ul>
-<p>Documentation: <a href="https://shanlong-who.github.io/exmort/" class="uri">https://shanlong-who.github.io/exmort/</a></p>
-<p>The GitHub development version also supports selecting one country and one cause of death from a monthly workbook. It includes official Australian (2015-May 2026) and Philippine (2019-2024) examples, a cause-specific template, and separate historical-average and negative-binomial baselines. The seven all-cause models and Best Fit remain available. See the <a href="https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md" class="external-link">cause-specific guide</a> for use and data limitations. The Philippine example compares 2024 with pandemic-inclusive 2019-2023 history; it is not a pre-pandemic counterfactual. These additions are not yet on CRAN.</p>
-<div class="section level2">
-<h2 id="guides">Guides<a class="anchor" aria-label="anchor" href="#guides"></a>
-</h2>
-<table class="table">
-<colgroup>
-<col width="50%">
-<col width="50%">
-</colgroup>
-<thead><tr>
-<th>Guide</th>
-<th>What you will learn</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><a href="https://shanlong-who.github.io/exmort/articles/exmort.html">Getting started</a></td>
-<td>Install the package, run a built-in example and export a report</td>
-</tr>
-<tr>
-<td><a href="https://shanlong-who.github.io/exmort/articles/data-preparation.html">Preparing data</a></td>
-<td>Fill the weekly or monthly workbook and define the event calendar</td>
-</tr>
-<tr>
-<td><a href="https://shanlong-who.github.io/exmort/articles/models-and-interpretation.html">Models and interpretation</a></td>
-<td>Compare baselines, read uncertainty and explain excess deaths and P-scores</td>
-</tr>
-</tbody>
-</table>
-<p>The website contains documentation. Launch the Shiny calculator from R to perform an analysis.</p>
+<p class="em-lead">
+How different was mortality during a heatwave, outbreak or other event? Use weekly or monthly death counts to estimate a baseline and see how far recorded deaths were above or below it.
+</p>
+<div class="em-actions">
+<a class="external-link em-primary" href="https://shanlong-who.github.io/excess-mortality/">Open the calculator</a><a class="em-secondary" href="#run-in-r">Run in RStudio</a>
 </div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<p class="em-browser">
+The browser version downloads R on your first visit. Start with a built-in example or open your own workbook.
+</p>
+<div class="em-badges" role="group" aria-label="R package status">
+<p><a href="https://cran.r-project.org/package=exmort" class="external-link"><img src="https://www.r-pkg.org/badges/version/exmort" alt="Current CRAN version" height="20"></a> <a href="https://cran.r-project.org/package=exmort" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/exmort" alt="Total CRAN downloads" height="20"></a> <a href="https://github.com/shanlong-who/exmort/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/shanlong-who/exmort/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main" alt="R CMD check status" height="20"></a></p>
+</div>
+</div>
+<figure class="em-example"><figcaption><span class="em-kicker">Worked example · Synthetic data</span><strong>Six months of mortality</strong>
+</figcaption><div class="em-legend">
+<span><i class="em-observed" aria-hidden="true"></i>Observed deaths</span><span><i class="em-expected" aria-hidden="true"></i>Expected deaths</span>
+</div>
+<img class="em-chart" src="monthly-example.png" width="1200" height="620" alt="Monthly observed deaths rise from 980 in January to 1,230 in April, then fall to 1,060 in June. The expected baseline stays at 1,000."><div class="em-reading">
+<div>
+<span>April excess deaths</span><strong>+230</strong>
+</div>
+<div>
+<span>April P-score</span><strong>+23%</strong>
+</div>
+</div>
+<p>
+In April, 1,230 deaths were observed and 1,000 were expected. The difference was 23% of the expected count.
+</p>
+<a href="articles/models-and-interpretation.html#observed-expected-and-excess-deaths">See how the P-score is calculated</a>
+</figure></section><section class="em-guides" aria-labelledby="analysis-guides"><h2 id="analysis-guides">
+From a workbook to a report
 </h2>
-<p>Install from <a href="https://cran.r-project.org/package=exmort" class="external-link">CRAN</a>:</p>
+<div class="em-guide-grid">
+<div>
+<h3>
+<a href="articles/data-preparation.html">Prepare the data</a>
+</h3>
+<p>
+Match weekly or monthly death counts to an event calendar. Check dates, missing counts and which periods will form the baseline.
+</p>
+</div>
+<div>
+<h3>
+<a href="articles/models-and-interpretation.html">Compare baselines</a>
+</h3>
+<p>
+Explore seven all-cause models, from historical averages to seasonal regression. Read the uncertainty alongside the estimated excess.
+</p>
+</div>
+<div>
+<h3>
+<a href="articles/exmort.html">Run your first analysis</a>
+</h3>
+<p>
+Follow a built-in country example from the first import to a results table, a plot and a downloadable report.
+</p>
+</div>
+</div>
+</section><section class="em-install" aria-labelledby="run-in-r"><div>
+<h2 id="run-in-r">
+Run exmort in RStudio
+</h2>
+<p>
+Install the CRAN release once. Then launch the calculator from the RStudio console whenever you need it.
+</p>
+<div class="em-links">
+<a href="https://cran.r-project.org/package=exmort" class="external-link">CRAN package</a><a href="reference/run_app.html">Function reference</a>
+</div>
+</div>
+<div class="em-code">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"exmort"</span><span class="op">)</span></span></code></pre></div>
-<p>Development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"shanlong-who/exmort"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
-</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/shanlong-who/exmort" class="external-link">exmort</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"exmort"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/shanlong-who/exmort" class="external-link">exmort</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>In the development version, select <strong>English</strong> or <strong>简体中文</strong> from <strong>Language / 语言</strong> in the navigation bar. You can switch during an analysis and keep your data, choices and fitted results. Generated reports use English.</p>
-<p>The app opens in your default web browser and runs entirely on your machine — no data leaves your computer. Built-in example datasets for several countries are included; you can also upload your own workbook using the templates on the <strong>Data</strong> tab.</p>
-<p>Start with <strong>Data → Upload Data → Built-in example data</strong>, select a country and its mortality and event sheets, then click <strong>Merge Built-in Data</strong>. Review <strong>View Data</strong>, open <strong>Model</strong>, choose a group and click <strong>Run Model</strong>. Inspect <strong>Tables</strong> and <strong>Plots</strong> before generating an HTML report.</p>
-<p>The current models use periods outside the supplied events (<code>event_index == "0"</code>) as their baseline. These may include observations after an event; review the input time range and event calendar carefully.</p>
-<p>Use RStudio’s Stop button or Escape in the console to stop the app.</p>
 </div>
-<div class="section level2">
-<h2 id="optional-features">Optional features<a class="anchor" aria-label="anchor" href="#optional-features"></a>
+</section><section class="em-cause" aria-labelledby="by-cause"><div>
+<p class="em-kicker">
+GitHub development version
+</p>
+<h2 id="by-cause">
+Explore mortality by cause
 </h2>
-<ul>
-<li>
-<strong>Word (.docx) reports</strong> need the <code>officedown</code> package: <code>install.packages("officedown")</code>.</li>
-<li>
-<strong>PDF reports</strong> need a LaTeX installation, e.g. <code><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html" class="external-link">tinytex::install_tinytex()</a></code>.</li>
-</ul>
 </div>
-<div class="section level2">
-<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
-</h2>
-<p>GPL-3. © World Health Organization Regional Office for the Western Pacific.</p>
+<div>
+<p>
+Select a country and cause from the Australian or Philippine monthly workbooks. Compare historical-average and negative-binomial baselines. The Philippine example compares 2024 with 2019–2023, a period that includes pandemic years.
+</p>
+<div class="em-links">
+<a href="https://github.com/shanlong-who/exmort/blob/main/inst/app/CAUSE_SPECIFIC.md" class="external-link">Read the cause-specific guide</a><a href="articles/exmort.html#install-and-launch">Install the development version</a>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="links">
-<h2 data-toc-skip>Links</h2>
-<ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=exmort" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/shanlong-who/exmort/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/shanlong-who/exmort/issues" class="external-link">Report a bug</a></li>
-</ul>
+</section><div class="em-footlinks">
+<a href="authors.html#citation">Cite exmort</a><a href="news/index.html">Release notes</a><a href="https://github.com/shanlong-who/exmort" class="external-link">Source on GitHub</a>
 </div>
-
-<div class="license">
-<h2 data-toc-skip>License</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
-</ul>
 </div>
-
-
-<div class="citation">
-<h2 data-toc-skip>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing exmort</a></li>
-</ul>
-</div>
-
-<div class="developers">
-<h2 data-toc-skip>Developers</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://github.com/shanlong-who" class="external-link">Shanlong Ding</a> <br><small class="roles"> Author, maintainer </small>   </li>
-<li>World Health Organization Regional Office for the Western Pacific <br><small class="roles"> Copyright holder, funder </small>   </li>
-</ul>
-</div>
-
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=exmort" class="external-link"><img src="https://www.r-pkg.org/badges/version/exmort" alt="CRAN status"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-mature-brightgreen.svg" alt="Lifecycle: mature"></a></li>
-<li><a href="https://cran.r-project.org/package=exmort" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/exmort" alt="CRAN downloads"></a></li>
-</ul>
-</div>
-
-  </aside>
+  </main><aside class="col-md-3"></aside>
 </div>
 
 
