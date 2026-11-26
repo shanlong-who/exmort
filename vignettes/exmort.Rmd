@@ -49,8 +49,8 @@ run_app()
 ```
 
 The app opens in your browser. R does the calculations on your computer.
-The documentation website can be read without R; using the calculator requires
-a running R session. The website does not host the Shiny application.
+You can also open the [browser calculator](https://shanlong-who.github.io/excess-mortality/)
+without installing R. The first visit downloads its R runtime and packages.
 
 While the app runs, the R console is busy. Use RStudio's Stop button or press
 Escape in the console to stop it. Closing a browser tab may leave R running.

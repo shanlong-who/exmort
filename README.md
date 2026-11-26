@@ -46,8 +46,8 @@ it is not a pre-pandemic counterfactual. These additions are not yet on CRAN.
 | [Preparing data](https://shanlong-who.github.io/exmort/articles/data-preparation.html) | Fill the weekly or monthly workbook and define the event calendar |
 | [Models and interpretation](https://shanlong-who.github.io/exmort/articles/models-and-interpretation.html) | Compare baselines, read uncertainty and explain excess deaths and P-scores |
 
-The website contains documentation. Launch the Shiny calculator from R to
-perform an analysis.
+Open the [browser calculator](https://shanlong-who.github.io/excess-mortality/)
+to try a built-in example, or launch the package locally from R as shown below.
 
 ## Installation
 

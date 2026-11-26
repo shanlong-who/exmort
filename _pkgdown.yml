@@ -10,10 +10,11 @@ template:
     code_font:
       google: JetBrains Mono
 home:
+  sidebar: false
   title: exmort — All-Cause and Excess Mortality Calculator
   description: >
-    A local R Shiny calculator for weekly and monthly all-cause mortality,
-    expected deaths, excess deaths and P-scores, with model comparisons and reports.
+    Compare observed and expected deaths using weekly or monthly counts.
+    Open the browser calculator or run exmort in RStudio to estimate excess deaths and P-scores.
 navbar:
   structure:
     left: [intro, reference, articles, news]
